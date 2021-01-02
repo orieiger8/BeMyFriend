@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imageperson"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@mipmap/ic_launcher_round" />
+
+    <TextView
+        android:id="@+id/textname"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="start"
+        android:text="שם"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/textlastchat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/texttime"
+        app:layout_constraintTop_toTopOf="@+id/imageperson" />
+
+    <TextView
+        android:id="@+id/textlastchat"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="start"
+        android:text="צ'אט אחרון"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/textname"
+        app:layout_constraintStart_toEndOf="@+id/textunreadmessages"
+        app:layout_constraintTop_toBottomOf="@id/textname" />
+
+    <TextView
+        android:id="@+id/texttime"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:text="time"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textname"
+        app:layout_constraintStart_toEndOf="@+id/imageperson"
+        app:layout_constraintTop_toTopOf="@+id/textname" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginTop="16dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageperson" />
+
+    <TextView
+        android:id="@+id/textunreadmessages"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:gravity="right"
+        android:text="(1)"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/textlastchat"
+        app:layout_constraintStart_toStartOf="@+id/texttime"
+        app:layout_constraintTop_toTopOf="@+id/textlastchat" />
+</androidx.constraintlayout.widget.ConstraintLayout>

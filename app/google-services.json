@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "599762370310",
+    "firebase_url": "https://be-my-friend-54818.firebaseio.com",
+    "project_id": "be-my-friend-54818",
+    "storage_bucket": "be-my-friend-54818.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:599762370310:android:ff60323a0dbb5cf1faa887",
+        "android_client_info": {
+          "package_name": "com.example.bemyfriend"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "599762370310-1msffd9fd745vkocgne08cc9cgu67tv1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBANjr25CnN1_5QLvlfW-v0HWBrSc-tgZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "599762370310-1msffd9fd745vkocgne08cc9cgu67tv1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuchat_myprofile"
+        android:title="הפרופיל שלי" />
+    <item
+        android:id="@+id/menuchat_chats"
+        android:title="צ'אטים" />
+    <item
+        android:id="@+id/menuchat_findnewfriends"
+        android:title="חפש חברים חדשים" />
+    <item
+        android:id="@+id/menuchat_deletechat"
+        android:title="מחק צ'אט זה" />
+    <item
+        android:id="@+id/menuchat_logout"
+        android:title="יציאה" />
+</menu>

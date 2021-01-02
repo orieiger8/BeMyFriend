@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_myprofile_chats"
+        android:title="צ'אטים" />
+    <item
+        android:id="@+id/menu_myprofile_findnewfriends"
+        android:title="מצא חברים חדשים" />
+    <item
+        android:id="@+id/menu_myprofile_logout"
+        android:title="יציאה" />
+</menu>

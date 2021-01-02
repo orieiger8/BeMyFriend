@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chat_background">
+
+    <ImageView
+        android:id="@+id/imageView71"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/profile11" />
+
+    <TextView
+        android:id="@+id/textViewParentNamemored"
+        android:layout_width="268dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="שם ההורה: "
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView71" />
+
+    <TextView
+        android:id="@+id/textViewChildNamemored"
+        android:layout_width="268dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="שם הילד: "
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/textViewParentNamemored"
+        app:layout_constraintTop_toBottomOf="@id/textViewParentNamemored" />
+
+    <TextView
+        android:id="@+id/textViewCitymored"
+        android:layout_width="268dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="עיר מגורים:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/textViewGendermored"
+        app:layout_constraintTop_toBottomOf="@id/textViewChildNamemored" />
+
+    <TextView
+        android:id="@+id/textViewAgemored"
+        android:layout_width="268dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="גיל:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/textViewChildNamemored"
+        app:layout_constraintTop_toBottomOf="@id/textViewCitymored" />
+
+    <TextView
+        android:id="@+id/textViewHobiesmored"
+        android:layout_width="268dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="תחומי עניין: "
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/textViewChildNamemored"
+        app:layout_constraintTop_toBottomOf="@id/textViewAgemored" />
+
+    <TextView
+        android:id="@+id/textViewGendermored"
+        android:layout_width="268dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:text="מין:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@id/textViewAgemored"
+        app:layout_constraintTop_toBottomOf="@id/textViewHobiesmored" />
+
+    <TextView
+        android:id="@+id/textViewDetailsmored"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="עוד על הילד:"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/textViewParentNamemored"
+        app:layout_constraintTop_toBottomOf="@id/textViewGendermored" />
+
+
+    <Button
+        android:id="@+id/startchatbuttonmored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:text="התחל צ'אט"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cancelButtonmored"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.78"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cancelButtonmored" />
+
+    <Button
+        android:id="@+id/cancelButtonmored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="16dp"
+        android:backgroundTint="@color/teal_700"
+        android:text="חזור"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/startchatbuttonmored"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textViewDetailsmored" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

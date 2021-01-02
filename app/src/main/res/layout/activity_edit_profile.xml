@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chat_background"
+    tools:context=".EditProfile">
+
+    <include
+        android:id="@+id/mytoolbar"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/cancelChanges"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:onClick="cancelChanges"
+        android:text="ביטול"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/changedetailsbutton"
+        app:layout_constraintEnd_toStartOf="@+id/changedetailsbutton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/changedetailsbutton" />
+
+    <Button
+        android:id="@+id/changedetailsbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/teal_700"
+        android:onClick="saveChanges"
+        android:text="שמור"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.73"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:onClick="openPicChoosing"
+        android:text="לחץ על התמונה כדי להחליף תמונת פרופיל"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mytoolbar" />
+
+    <Button
+        android:id="@+id/picbutton"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/profile11"
+        android:onClick="openPicChoosing"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        android:layoutDirection="rtl"
+        app:layout_constraintBottom_toTopOf="@+id/cancelChanges"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/picbutton">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp">
+
+            <TextView
+                android:id="@+id/textViewParentDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foregroundGravity="center"
+                android:gravity="center"
+                android:text="פרטי ההורה"
+                android:textColor="@color/teal_700"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/textView9"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/editTextName"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="right">
+
+                    <EditText
+                        android:id="@+id/editTextEditName"
+                        android:layout_width="188dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="end"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/white_overlay"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/textViewParentNameTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="שם ההורה: "
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right">
+
+                    <EditText
+                        android:id="@+id/editTextEditCity"
+                        android:layout_width="188dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/white_overlay"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/textViewCityTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="עיר: "
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="77dp"
+                android:gravity="center"
+                android:text="פרטי הילד"
+                android:textColor="@color/teal_700"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editTextPasswordR" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="right">
+
+                    <EditText
+                        android:id="@+id/editTextEditChildName"
+                        android:layout_width="188dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/white_overlay"
+                        android:ems="10"
+                        android:gravity="right|center_vertical"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/textViewChildNameTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="שם הילד: "
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right">
+
+                    <EditText
+                        android:id="@+id/editTextEditAge"
+                        android:layout_width="188dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/white_overlay"
+                        android:ems="10"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <TextView
+                        android:id="@+id/textViewAgeTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="גיל: "
+                        android:textColor="#000000"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="תחומי עניין:"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEditBoardGames"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="משחקי קופסא"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEditSience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="מדעים"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEditNature"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="טבע"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEditSport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="ספורט"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEditArt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="אומנות"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEditGaming"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="משחקי מחשב"
+                android:textSize="18sp" />
+
+            <CheckBox
+                android:id="@+id/checkBoxEditMusic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:text="מוזיקה"
+                android:textSize="18sp" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="right">
+
+                    <EditText
+                        android:id="@+id/editTextEditOtherHobby"
+                        android:layout_width="188dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="start"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/white_overlay"
+                        android:ems="10"
+                        android:inputType="textPersonName"
+                        android:paddingStart="10dp" />
+
+                    <TextView
+                        android:id="@+id/textViewOtherHobbyTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:text="אחר: "
+                        android:textColor="#000000"
+                        android:textSize="18sp" />
+                </TableRow>
+
+            </TableLayout>
+
+            <RadioGroup
+                android:id="@+id/radioEditGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="16dp"
+                app:layout_constraintStart_toStartOf="@+id/editTextAge"
+                app:layout_constraintTop_toBottomOf="@+id/editTextAge">
+
+                <RadioButton
+                    android:id="@+id/editUser_radioButtonEditMale"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableRight="?android:attr/listChoiceIndicatorSingle"
+                    android:text="זכר"
+                    android:textColor="#090808"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/editUser_radioButtonEditFemale"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableRight="?android:attr/listChoiceIndicatorSingle"
+                    android:text="נקבה"
+                    android:textColor="#090808"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/EditDetailsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="24dp"
+                android:text="ספר לנו על הילד שלך:"
+                android:textColor="#000000"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editTextEditDetails"
+                android:layout_width="268dp"
+                android:layout_height="78dp"
+                android:layout_gravity="end"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/white_overlay"
+                android:ems="10"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
