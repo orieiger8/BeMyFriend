@@ -34,8 +34,13 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
 
+        //connect to database with DB
         db= DB.getInstance();
+
+        //get my user
         thisUser= db.getMyUser();
+
+        //start the attach
         db.attachChat(this);
 
         //set the toolbar
@@ -49,22 +54,26 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
         //find the users at the firebase
         otherUser= db.getPartnerName(partnerMail);
 
+        //get the chat name in firebase
         flushName= FlushName(thisUser,otherUser);
 
+        //get the send button
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
 
+        //put listener on send button
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText input = (EditText)findViewById(R.id.input);
                 String message= input.getText().toString();
 
+                //put message in firebase in the chat
                 db.sendMessage(flushName,message);
-                //add last message for my
+                //add last message for my in firebase
                 thisUser.addMyMessage(partnerMail,message);
                 db.updateUserInDB(thisUser);
-                //add last message for the partner
+                //add last message for the partner in firebase
                 otherUser.addMessage(thisUser.getMail(), message);
                 db.updateOtherUserInDB(otherUser);
 
@@ -72,6 +81,7 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
                 input.setText("");
             }
         });
+        //put partner information in the activity
         ImageView icon= findViewById(R.id.imageView3);
         TextView name= findViewById(R.id.textView2);
         name.setText(otherUser.getChildName() + " (" + otherUser.getParentName() + ")");
@@ -90,13 +100,16 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
     }
 
     public void CreateChatMessages() {
+        //create recycler view layout
         RecyclerView listOfMessages = findViewById(R.id.messageRecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         listOfMessages.setLayoutManager(layoutManager);
 
+        //get all messages on this chat
         messages = db.getChatMessages(flushName);
 
+        //create recycler view
         ChatMessageAdapter adapter = new ChatMessageAdapter(messages, thisUser.getMail());
         adapter.setMessages(messages);
         adapter.notifyDataSetChanged();

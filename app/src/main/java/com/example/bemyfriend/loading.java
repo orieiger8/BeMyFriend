@@ -19,6 +19,7 @@ public class loading extends AppCompatActivity implements Observer {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         isLoggedIn = mAuth.getCurrentUser() != null;
 
+        //connect to database with DB
         DB db = DB.getInstance(this);
     }
 

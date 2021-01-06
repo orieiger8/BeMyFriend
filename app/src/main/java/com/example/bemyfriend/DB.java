@@ -88,45 +88,47 @@ public class DB {
     public User getMyUser() {
         return thisUser;
     }
-    public void changeUserX() {
-        // change var
-        // ...
 
-        // update DB
-        // ...
-    }
     public void updateUserInDB(User myUser) {
+        //update my user in realtime database
         DatabaseReference userRef = database.getReference("users/" + userKey);
         userRef.setValue(thisUser);
     }
     public void updateOtherUserInDB(User otherUser){
+        //find the other user
         for (DataSnapshot currentUser : usersSnap.getChildren()) {
             User val = currentUser.getValue(User.class);
 
+            //update the user in realtime data base
             if (val.getMail().equals(otherUser.getMail())) {
                 database.getReference("users/" + currentUser.getKey()).setValue(otherUser);
             }
         }
     }
     public ArrayList<User> getAllUsersExceptMe(){
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         ArrayList<User> users= new ArrayList<>();
+
+        //find all users except my user
         for (DataSnapshot currentUser : usersSnap.getChildren()) {
             User val = currentUser.getValue(User.class);
 
-            if (!val.getMail().equals(mAuth.getCurrentUser().getEmail())) {
+            if (!val.getMail().equals(thisUser.getMail())) {
                 users.add(val);
             }
         }
+        //return list of all users
         return users;
     }
 
 
     public ArrayList<Chat> getAllUsersChatsExceptMe(){
         ArrayList<Chat> chats= new ArrayList<>();
+
+        //find all users except my user
         for (DataSnapshot currentUser : usersSnap.getChildren()) {
             User val = currentUser.getValue(User.class);
 
+            //create chat with the user and put him in the list
             if (!val.getMail().equals(thisUser.getMail())) {
                 Chat c = new Chat(0,val.getChildName() + " (" + val.getParentName() + ")",
                         " ", val.getPicId(), 0, val.getMail());
@@ -144,10 +146,12 @@ public class DB {
     }
 
     public void registerNewUserToFireBase(User newUser){
+        //register new user
         usersSnap.getRef().push().setValue(newUser);
     }
 
     public User getPartnerName(String otherMail) {
+        //find partner name by his mail
         for (DataSnapshot currentUser : usersSnap.getChildren()) {
             User val = currentUser.getValue(User.class);
             if(val.getMail().equals(otherMail)){
@@ -160,6 +164,8 @@ public class DB {
 
     public ArrayList<ChatMessage> getChatMessages(String flushName){
         ArrayList<ChatMessage> messages = new ArrayList<>();
+
+        //get all messages from the chat which his name is the flushName
         for (DataSnapshot currentUser: chatSnap.getChildren()) {
             if (currentUser.getKey().equals(flushName)) {
                 for (DataSnapshot message : currentUser.getChildren())
@@ -174,18 +180,20 @@ public class DB {
         return messages;
     }
 
-    public void sendMessage(String flushname, String message){
+    public void sendMessage(String flushName, String message){
         // Read the input field and push a new instance
         // of ChatMessage to the Firebase database
-        database.getReference("chats/" + flushname).push().setValue(new ChatMessage(message,thisUser.getMail()));
+        database.getReference("chats/" + flushName).push().setValue(new ChatMessage(message,thisUser.getMail()));
     }
 
     public void createChat(String flushName){
+        //start new chat in realtime data base
         database.getReference("chats/" + flushName).push()
                 .setValue(new ChatMessage("שלום", thisUser.getMail()));
     }
 
     public void deleteChat(String flushName){
+        //delete chat from realtime data base
         database.getReference("chats/" + flushName).setValue(null);
     }
 

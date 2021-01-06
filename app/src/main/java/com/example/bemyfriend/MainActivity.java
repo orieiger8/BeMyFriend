@@ -21,8 +21,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -49,10 +47,13 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        //connect to database with DB
         db = DB.getInstance();
 
+        //get my user
         thisUser = db.getMyUser();
+
+        //get list of all users
         users2 = db.getAllUsersExceptMe();
         users2 = randomOrder(users2);
 
@@ -62,9 +63,7 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         setSupportActionBar(toolBar);
         toolBar.setTitle("מצא חברים חדשים");
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users");
-
+        //create recycler view layout
         final RecyclerView recyclerView1 = findViewById(R.id.recyclerViewFindFriends);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView1.setLayoutManager(layoutManager);
@@ -77,15 +76,17 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
             }
         };
 
+        //create recycler view
         newFriendAdapter = new newFriendAdapter(users2, listener);
         recyclerView1.setAdapter(newFriendAdapter);
-
     }
 
     public void moveToChats(View view) {
+        //if there is no chats for the user move to find new friends
         if (thisUser.getChats().size() == 0)
             Toast.makeText(MainActivity.this, "אין לך צ'אטים זמינים", Toast.LENGTH_LONG).show();
         else {
+            //move to chat activity
             startActivity(new Intent(this, Chats.class));
             finish();
         }
@@ -115,15 +116,20 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
 
     //popup window filter
     public void createNewContactDialog(){
+        //get all activity objects
         dialogBuilder = new AlertDialog.Builder(this);
         final View contactPopupView =getLayoutInflater().inflate(R.layout.popup,null);
+
+        //
         namePopup = (EditText) contactPopupView.findViewById(R.id.editTextFilterName);
         agePopup = (EditText) contactPopupView.findViewById(R.id.editTextFilterAge);
         cityPopup = (EditText) contactPopupView.findViewById(R.id.editTextFilterCity);
         otherHobby = (EditText) contactPopupView.findViewById(R.id.editTextFilterOtherHobie);
         filterPopup = (Button) contactPopupView.findViewById(R.id.filterButton2);
         String other = otherHobby.getText().toString();
+        //
 
+        //
         final CheckBox boardGamesCheckBox = contactPopupView.findViewById(R.id.checkBoxFilterBoardGames);
         final CheckBox artCheckBox = contactPopupView.findViewById(R.id.checkBoxFilterArt);
         final CheckBox gamingCheckBox = contactPopupView.findViewById(R.id.checkBoxFilterGaming);
@@ -132,7 +138,9 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         final CheckBox scienceCheckBox = contactPopupView.findViewById(R.id.checkBoxFilterSience);
         final CheckBox sportCheckBox = contactPopupView.findViewById(R.id.checkBoxFilterSport);
         final EditText otherHobby = contactPopupView.findViewById(R.id.editTextFilterOtherHobie);
+        //
 
+        //create dialog
         dialogBuilder.setView(contactPopupView);
         dialog = dialogBuilder.create();
         dialog.show();
@@ -155,26 +163,31 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                     User val = users2.get(i);
 
                     boolean filterOut = false;
+                    //check by name
                     String cName = namePopup.getText().toString();
                     if (!cName.equals("")) {
                         if (!val.getChildName().equals(cName))
                             filterOut = true;
                     }
+                    //check by age
                     String ageStr = agePopup.getText().toString();
                     if (!filterOut && !ageStr.equals("")) {
                         if (val.getAge() != Integer.parseInt(ageStr))
                             filterOut = true;
                     }
+                    //check by city
                     String cityStr = cityPopup.getText().toString();
                     if (!filterOut && !cityStr.equals("")) {
                         if (!val.getAddress().equals(cityStr))
                             filterOut = true;
                     }
+                    //check by other hobby
                     String otherStr = otherHobby.getText().toString();
                     if (!filterOut && !otherStr.equals("")) {
                         if (!val.getHobby().getOther().equals(otherStr))
                             filterOut = true;
                     }
+                    //check by gender
                     if (!filterOut && male) {
                         if (!val.getGender().equals("male"))
                             filterOut = true;
@@ -183,6 +196,9 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                         if (!val.getGender().equals("female"))
                             filterOut = true;
                     }
+                    //
+
+                    //check by hobbies
                     boolean boardgames = boardGamesCheckBox.isChecked();
                     if (!filterOut && boardgames) {
                         if (!val.getHobby().getBoardGames())
@@ -218,6 +234,7 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                         if (!val.getHobby().getScience())
                             filterOut = true;
                     }
+                    //
                     if (!filterOut) {
                         friendList2.add(val);
                     }
@@ -231,10 +248,13 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                         createNewContactDialog2(friendList2.get(position));
                     }
                 };
+                // if there is not any user who is matching
                 if (friendList2.size() == 0) {
                     Toast.makeText(MainActivity.this, "לא נמצאו אנשים", Toast.LENGTH_LONG).show();
                     newFriendAdapter.setNf(users2);
-                } else {
+                }
+                //update recycler view
+                else {
                     ArrayList<User> friendList22 = randomOrder(friendList2);
                     newFriendAdapter.setNf(friendList22);
                     newFriendAdapter.setOnListListener(listener2);
@@ -254,10 +274,12 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         dialogBuilder2 = new AlertDialog.Builder(this);
         final View contactPopupView = getLayoutInflater().inflate(R.layout.popup_more_details, null);
 
+        //build dialog
         dialogBuilder2.setView(contactPopupView);
         dialog2 = dialogBuilder2.create();
         dialog2.show();
 
+        //get all dialog objects
         parentName = (TextView) contactPopupView.findViewById(R.id.textViewParentNamemored);
         childName = (TextView) contactPopupView.findViewById(R.id.textViewChildNamemored);
         age = (TextView) contactPopupView.findViewById(R.id.textViewAgemored);
@@ -268,7 +290,9 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         hobbies = (TextView) contactPopupView.findViewById(R.id.textViewHobiesmored);
         cancelMoreD = (Button) contactPopupView.findViewById(R.id.cancelButtonmored);
         startChatMoreD = (Button) contactPopupView.findViewById(R.id.startchatbuttonmored);
+        //
 
+        //set all user's information
         parentName.setText("שם ההורה: "+ user1.getParentName());
         childName.setText("שם הילד: " + user1.getChildName());
         age.setText("גיל: " + user1.getAgeString());
@@ -301,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         h = h.substring(0, h.length() - 2);
         h += ".";
         hobbies.setText(h);
+        //
 
         cancelMoreD.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,12 +340,14 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                 Intent intent = new Intent(MainActivity.this, ChatRoom.class);
                 intent.putExtra("mail", user1.getMail());
 
+                //check if chat already exist
                 boolean alreadyExist= false;
                 for (int i = 0; i < thisUser.getChats().size(); i++){
                     if(thisUser.getChats().get(i).getMail().equals(user1.getMail()))
                         alreadyExist = true;
                 }
 
+                //create new chat
                 if (!alreadyExist) {
                     String flushName = FlushName(user1, thisUser);
                     db.createChat(flushName);

@@ -32,21 +32,26 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chats);
 
+        //connect to database with DB
         DB db = DB.getInstance();
 
+        //get my user
         thisUser = db.getMyUser();
-        chats = db.getAllUsersChatsExceptMe();
 
+        //get all chats
+        chats = db.getAllUsersChatsExceptMe();
 
         //set the toolbar
         toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("צ'אטים");
 
+        //start create the recycler view
         final RecyclerView recyclerView = findViewById(R.id.recycleView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        //delete all chats that the user doesn't have
         ArrayList<Chat> finalChats = new ArrayList<>();
         if (thisUser.getChats().size() != 0) {
             for (int i = 0; i < chats.size(); i++) {
@@ -60,7 +65,8 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
             for(int i=0; i<finalChats.size(); i++){
                 chats.add(finalChats.get(i));
             }
-            //order by time and unread message
+
+            //order by time
             finalChats.clear();
             Chat temp= null;
             for(int i=0; i<chats.size(); i++) {
@@ -75,6 +81,7 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
                 chats.remove(newChat);
                 i--;
             }
+            //order by unread messages
             for(int i=0; i<finalChats.size(); i++) {
                 if (finalChats.get(i).getUnreadMessages() > 0) {
                     chats.add(finalChats.get(i));
@@ -88,6 +95,7 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
             finalChats.clear();;
         }
 
+        //put listener on recycler view
         listener = new ChatAdapter.RecyclerViewClickListener() {
             @Override
             public void OnClick(int position) {
@@ -105,6 +113,7 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
             startActivity(new Intent(Chats.this, MainActivity.class));
             finish();
         }
+        //create recycler view
         ChatAdapter chatAdapter = new ChatAdapter(chats, listener);
         recyclerView.setAdapter(chatAdapter);
     }
@@ -136,6 +145,7 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
     }
 
     public void moveToMain(View view) {
+        //move to chats page
         startActivity(new Intent(Chats.this,MainActivity.class));
         finish();
     }

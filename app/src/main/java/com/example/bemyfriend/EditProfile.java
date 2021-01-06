@@ -54,9 +54,13 @@ public class EditProfile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
+        //connect to database with DB
         db = DB.getInstance();
+
+        //get my user
         thisUser = db.getMyUser();
 
+        //set the toolbar
         toolbar=findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("עריכת פרופיל");

@@ -35,16 +35,6 @@ public class Login extends AppCompatActivity {
         button.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
     }
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//
-//        // Check if user is signed in (non-null) and update UI accordingly.
-//        if (mAuth.getCurrentUser() != null) {
-//            startActivity(new Intent(Login.this, Chats.class));
-//            finish();
-//        }
-//    }
 
     public void login(View view) {
         EditText passwordText= findViewById(R.id.editTextpassword);
