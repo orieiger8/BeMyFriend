@@ -13,25 +13,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class MyProfile extends AppCompatActivity {
 
-    private FirebaseAuth mAuth;
     private Toolbar toolbar;
+    private User thisUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
-        mAuth = FirebaseAuth.getInstance();
+
+        DB db = DB.getInstance();
+        thisUser = db.getMyUser();
+
 
         //set the toolbar
-        toolbar=findViewById(R.id.mytoolbar);
+        toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitle("הפרופיל שלי");
 
@@ -45,62 +43,42 @@ public class MyProfile extends AppCompatActivity {
         final ImageView profilePic = findViewById(R.id.imageView71);
         final TextView hobbies = (TextView) findViewById(R.id.textViewHobbies);
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users");
 
+        //get the information from firebase to activity
 
-        myRef.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //find current user and get the information from firebase to activity
-                for (DataSnapshot currentUser: dataSnapshot.getChildren()) {
-                    User val = currentUser.getValue(User.class);
-                    String currentUserMail = mAuth.getCurrentUser().getEmail();
-                    String mailLoop = val.getMail();
-                    if (currentUserMail.equals(mailLoop)) {
-                        parentName.setText("שם ההורה: " + val.getParentName());
-                        mail.setText( "מייל: "+ val.getMail());
-                        city.setText("עיר מגורים: " + val.getAddress());
-                        childName.setText("שם הילד: " + val.getChildName());
-                        age.setText( "גיל: " + val.getAgeString());
-                        if (val.getGender().equals("male"))
-                            gender.setText("מין: זכר");
-                        else if (val.getGender().equals("female"))
-                            gender.setText("מין: נקבה");
-                        moreDetails.setText("עוד על הילד: " + val.getDetails());
-                        profilePic.setImageResource(mail.getResources().getIdentifier(val.getPicId(),
-                                "drawable", mail.getContext().getPackageName()));
-                        String h = "תחומי עניין: ";
-                        if (val.getHobby().getBoardGames())
-                            h += "משחקי קופסא, ";
-                        if (val.getHobby().getScience())
-                            h += "מדעים, ";
-                        if (val.getHobby().getArt())
-                            h += "אומנות, ";
-                        if (val.getHobby().getGaming())
-                            h += "משחקי מחשב, ";
-                        if (val.getHobby().getMusic())
-                            h += "מוזיקה, ";
-                        if (val.getHobby().getNature())
-                            h += "טבע, ";
-                        if (val.getHobby().getSports())
-                            h += "ספורט, ";
-                        if (val.getHobby().getOther().length() != 0) {
-                            h += (val.getHobby().getOther()) + ", ";
-                        }
-                        h = h.substring(0, h.length() - 2);
-                        h += ".";
-                        hobbies.setText(h);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        parentName.setText("שם ההורה: " + thisUser.getParentName());
+        mail.setText("מייל: " + thisUser.getMail());
+        city.setText("עיר מגורים: " + thisUser.getAddress());
+        childName.setText("שם הילד: " + thisUser.getChildName());
+        age.setText("גיל: " + thisUser.getAgeString());
+        if (thisUser.getGender().equals("male"))
+            gender.setText("מין: זכר");
+        else if (thisUser.getGender().equals("female"))
+            gender.setText("מין: נקבה");
+        moreDetails.setText("עוד על הילד: " + thisUser.getDetails());
+        profilePic.setImageResource(mail.getResources().getIdentifier(thisUser.getPicId(),
+                "drawable", mail.getContext().getPackageName()));
+        String h = "תחומי עניין: ";
+        if (thisUser.getHobby().getBoardGames())
+            h += "משחקי קופסא, ";
+        if (thisUser.getHobby().getScience())
+            h += "מדעים, ";
+        if (thisUser.getHobby().getArt())
+            h += "אומנות, ";
+        if (thisUser.getHobby().getGaming())
+            h += "משחקי מחשב, ";
+        if (thisUser.getHobby().getMusic())
+            h += "מוזיקה, ";
+        if (thisUser.getHobby().getNature())
+            h += "טבע, ";
+        if (thisUser.getHobby().getSports())
+            h += "ספורט, ";
+        if (thisUser.getHobby().getOther().length() != 0) {
+            h += (thisUser.getHobby().getOther()) + ", ";
+        }
+        h = h.substring(0, h.length() - 2);
+        h += ".";
+        hobbies.setText(h);
     }
 
     public void moveToEditProfile(View view) {

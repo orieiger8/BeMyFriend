@@ -29,12 +29,15 @@ public class Register extends AppCompatActivity {
     Random rg = new Random();
     private boolean alreadyExist = false;
     private boolean allGood = true;
+    private DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+
+        db= DB.getInstance();
     }
 
     public void register(View view) {
@@ -67,27 +70,6 @@ public class Register extends AppCompatActivity {
 
         //check the details
         if (!emailText.getText().toString().equals("") && !passwordText.getText().toString().equals("")) {
-            FirebaseDatabase database= FirebaseDatabase.getInstance();
-            DatabaseReference myRef= database.getReference("users");
-            alreadyExist = false;
-
-            myRef.addValueEventListener(new ValueEventListener(){
-
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    for (DataSnapshot currentUser : dataSnapshot.getChildren()) {
-                        User val = currentUser.getValue(User.class);
-
-                        if (val.getMail().equals(emailText.getText().toString())) {
-                            alreadyExist = true;
-                        }
-                    }
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
             allGood = true;
             if (allGood && alreadyExist){
                 Toast.makeText(Register.this, "המייל כבר קיים במערכת", Toast.LENGTH_LONG).show();
@@ -125,9 +107,6 @@ public class Register extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                                    DatabaseReference myRef = database.getReference("users").push();
-
                                     String gender;
                                     if (male) gender = "male";
                                     else if (female) gender = "female";
@@ -142,10 +121,14 @@ public class Register extends AppCompatActivity {
                                             emailText.getText().toString(),
                                             addressText.getText().toString(), n,
                                             detailText.getText().toString(),
-                                            gender, "profile" + Math.abs(rg.nextInt() % 16 + 1), h, myRef.getKey());
+                                            gender, "profile" + Math.abs(rg.nextInt() % 16 + 1), h);
 
+                                    db.registerNewUserToFireBase(u);
 
-                                    myRef.setValue(u);
+                                    // notify DB
+                                    DB.getInstance().LoggedIn();
+
+                                    // move to main page
                                     startActivity(new Intent(Register.this, MainActivity.class));
                                     finish();
 

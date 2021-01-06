@@ -21,18 +21,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements newFriendAdapter.OnListListener {
 
-    private FirebaseAuth mAuth;
     private newFriendAdapter.OnListListener listener;
     private AlertDialog.Builder dialogBuilder, dialogBuilder2;
     private AlertDialog dialog,dialog2;
@@ -44,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
     private ImageView moreDIcon;
     private newFriendAdapter newFriendAdapter;
     private User thisUser;
+    private DB db;
 
     private Toolbar toolBar;
 
@@ -52,7 +49,13 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mAuth = FirebaseAuth.getInstance();
+
+        db = DB.getInstance();
+
+        thisUser = db.getMyUser();
+        users2 = db.getAllUsersExceptMe();
+        users2 = randomOrder(users2);
+
 
         //set the toolbar
         toolBar = findViewById(R.id.mytoolbar);
@@ -66,40 +69,17 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView1.setLayoutManager(layoutManager);
 
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-
+        //gives more info about the user you clicked on
+        listener = new newFriendAdapter.OnListListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //create list of all users and find the current user
-                users2.clear();
-                for (DataSnapshot currentUser: dataSnapshot.getChildren()) {
-                    User val = currentUser.getValue(User.class);
-
-                    if (!(val.getMail().equals(mAuth.getCurrentUser().getEmail()))) {
-                        users2.add(val);
-                    } else {
-                        thisUser = val;
-                    }
-                }
-                users2 = randomOrder(users2);
-                //gives more info about the user you clicked on
-                listener = new newFriendAdapter.OnListListener() {
-                    @Override
-                    public void onListClick(int position) {
-                        createNewContactDialog2(users2.get(position));
-                    }
-                };
-
-                newFriendAdapter = new newFriendAdapter(users2, listener);
-                recyclerView1.setAdapter(newFriendAdapter);
-
+            public void onListClick(int position) {
+                createNewContactDialog2(users2.get(position));
             }
+        };
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        newFriendAdapter = new newFriendAdapter(users2, listener);
+        recyclerView1.setAdapter(newFriendAdapter);
 
-            }
-        });
     }
 
     public void moveToChats(View view) {
@@ -165,120 +145,102 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                 boolean female = ((RadioButton) contactPopupView.findViewById(R.id.radioButtonfilterfemale)).isChecked();
 
                 final ArrayList<User> friendList2 = new ArrayList<>();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("users");
 
                 final RecyclerView recyclerView1 = findViewById(R.id.recyclerViewFindFriends);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
                 recyclerView1.setLayoutManager(layoutManager);
 
-                myRef.addValueEventListener(new ValueEventListener() {
 
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (int i = 0; i < users2.size(); i++) {
+                    User val = users2.get(i);
 
-                        for (DataSnapshot currentUser : dataSnapshot.getChildren()) {
-                            User val = currentUser.getValue(User.class);
-
-                            boolean filterOut = false;
-                            if (mAuth.getCurrentUser().getEmail().equals(val.getMail()))
-                                filterOut = true;
-
-                            String cName = namePopup.getText().toString();
-                            if (!cName.equals(""))
-                            {
-                                if (!val.getChildName().equals(cName))
-                                    filterOut = true;
-                            }
-                            String ageStr = agePopup.getText().toString();
-                            if (!filterOut && !ageStr.equals("")) {
-                                if (val.getAge() != Integer.parseInt(ageStr))
-                                    filterOut = true;
-                            }
-                            String cityStr = cityPopup.getText().toString();
-                            if (!filterOut && !cityStr.equals("")) {
-                                if (!val.getAddress().equals(cityStr))
-                                    filterOut = true;
-                            }
-                            String otherStr = otherHobby.getText().toString();
-                            if (!filterOut && !otherStr.equals("")) {
-                                if (!val.getHobby().getOther().equals(otherStr))
-                                    filterOut = true;
-                            }
-                            if (!filterOut && male) {
-                                if(!val.getGender().equals("male"))
-                                    filterOut=true;
-                            }
-                            if (!filterOut && female) {
-                                if (!val.getGender().equals("female"))
-                                    filterOut = true;
-                            }
-                            boolean boardgames = boardGamesCheckBox.isChecked();
-                            if (!filterOut && boardgames) {
-                                if (!val.getHobby().getBoardGames())
-                                    filterOut = true;
-                            }
-                            boolean art = artCheckBox.isChecked();
-                            if (!filterOut && art) {
-                                if (!val.getHobby().getArt())
-                                    filterOut = true;
-                            }
-                            boolean sport = sportCheckBox.isChecked();
-                            if (!filterOut && sport) {
-                                if (!val.getHobby().getSports())
-                                    filterOut = true;
-                            }
-                            boolean nature = natureCheckBox.isChecked();
-                            if (!filterOut && nature) {
-                                if (!val.getHobby().getNature())
-                                    filterOut = true;
-                            }
-                            boolean music = musicCheckBox.isChecked();
-                            if (!filterOut && music) {
-                                if (!val.getHobby().getMusic())
-                                    filterOut = true;
-                            }
-                            boolean gaming = gamingCheckBox.isChecked();
-                            if (!filterOut && gaming) {
-                                if (!val.getHobby().getGaming())
-                                    filterOut = true;
-                            }
-                            boolean science = scienceCheckBox.isChecked();
-                            if (!filterOut && science) {
-                                if (!val.getHobby().getScience())
-                                    filterOut = true;
-                            }
-                            if (!filterOut) {
-                                friendList2.add(val);
-                            }
-
-
-                        }
-                        newFriendAdapter.OnListListener listener2;
-                        listener2= new newFriendAdapter.OnListListener() {
-                            @Override
-                            public void onListClick(int position) {
-                                createNewContactDialog2(friendList2.get(position));
-                            }
-                        };
-                        if (friendList2.size() == 0) {
-                            Toast.makeText(MainActivity.this, "לא נמצאו אנשים", Toast.LENGTH_LONG).show();
-                            newFriendAdapter.setNf(users2);
-                        }
-                        else {
-                            ArrayList<User> friendList22= randomOrder(friendList2);
-                            newFriendAdapter.setNf(friendList22);
-                            newFriendAdapter.setOnListListener(listener2);
-                        }
-                        newFriendAdapter.notifyDataSetChanged();
+                    boolean filterOut = false;
+                    String cName = namePopup.getText().toString();
+                    if (!cName.equals("")) {
+                        if (!val.getChildName().equals(cName))
+                            filterOut = true;
+                    }
+                    String ageStr = agePopup.getText().toString();
+                    if (!filterOut && !ageStr.equals("")) {
+                        if (val.getAge() != Integer.parseInt(ageStr))
+                            filterOut = true;
+                    }
+                    String cityStr = cityPopup.getText().toString();
+                    if (!filterOut && !cityStr.equals("")) {
+                        if (!val.getAddress().equals(cityStr))
+                            filterOut = true;
+                    }
+                    String otherStr = otherHobby.getText().toString();
+                    if (!filterOut && !otherStr.equals("")) {
+                        if (!val.getHobby().getOther().equals(otherStr))
+                            filterOut = true;
+                    }
+                    if (!filterOut && male) {
+                        if (!val.getGender().equals("male"))
+                            filterOut = true;
+                    }
+                    if (!filterOut && female) {
+                        if (!val.getGender().equals("female"))
+                            filterOut = true;
+                    }
+                    boolean boardgames = boardGamesCheckBox.isChecked();
+                    if (!filterOut && boardgames) {
+                        if (!val.getHobby().getBoardGames())
+                            filterOut = true;
+                    }
+                    boolean art = artCheckBox.isChecked();
+                    if (!filterOut && art) {
+                        if (!val.getHobby().getArt())
+                            filterOut = true;
+                    }
+                    boolean sport = sportCheckBox.isChecked();
+                    if (!filterOut && sport) {
+                        if (!val.getHobby().getSports())
+                            filterOut = true;
+                    }
+                    boolean nature = natureCheckBox.isChecked();
+                    if (!filterOut && nature) {
+                        if (!val.getHobby().getNature())
+                            filterOut = true;
+                    }
+                    boolean music = musicCheckBox.isChecked();
+                    if (!filterOut && music) {
+                        if (!val.getHobby().getMusic())
+                            filterOut = true;
+                    }
+                    boolean gaming = gamingCheckBox.isChecked();
+                    if (!filterOut && gaming) {
+                        if (!val.getHobby().getGaming())
+                            filterOut = true;
+                    }
+                    boolean science = scienceCheckBox.isChecked();
+                    if (!filterOut && science) {
+                        if (!val.getHobby().getScience())
+                            filterOut = true;
+                    }
+                    if (!filterOut) {
+                        friendList2.add(val);
                     }
 
+
+                }
+                newFriendAdapter.OnListListener listener2;
+                listener2 = new newFriendAdapter.OnListListener() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+                    public void onListClick(int position) {
+                        createNewContactDialog2(friendList2.get(position));
                     }
+                };
+                if (friendList2.size() == 0) {
+                    Toast.makeText(MainActivity.this, "לא נמצאו אנשים", Toast.LENGTH_LONG).show();
+                    newFriendAdapter.setNf(users2);
+                } else {
+                    ArrayList<User> friendList22 = randomOrder(friendList2);
+                    newFriendAdapter.setNf(friendList22);
+                    newFriendAdapter.setOnListListener(listener2);
+                }
+                newFriendAdapter.notifyDataSetChanged();
 
-                });
 
                 dialog.dismiss();
             }
@@ -320,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                 "drawable", parentName.getContext().getPackageName()));
         String h = "תחומי עניין: ";
         if (user1.getHobby().getBoardGames())
-            h += "משחקי קופסא";
+            h += "משחקי קופסא ";
         if (user1.getHobby().getScience())
             h += "מדעים, ";
         if (user1.getHobby().getArt())
@@ -353,31 +315,21 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
                 Intent intent = new Intent(MainActivity.this, ChatRoom.class);
                 intent.putExtra("mail", user1.getMail());
 
-                boolean alreadyexsist= false;
+                boolean alreadyExist= false;
                 for (int i = 0; i < thisUser.getChats().size(); i++){
                     if(thisUser.getChats().get(i).getMail().equals(user1.getMail()))
-                        alreadyexsist = true;
+                        alreadyExist = true;
                 }
 
-                if (!alreadyexsist) {
+                if (!alreadyExist) {
                     String flushName = FlushName(user1, thisUser);
-                    FirebaseDatabase.getInstance().getReference("chats/" + flushName).push()
-                            .setValue(new ChatMessage("שלום", FirebaseAuth.getInstance().getCurrentUser().getEmail()));
-
+                    db.createChat(flushName);
                     thisUser.addChat(user1.getMail());
                     thisUser.addMyMessage(user1.getMail(), "שלום");
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference userRef = database.getReference("users/" + thisUser.getDataSnapshot());
-                    userRef.setValue(thisUser);
+                    db.updateUserInDB(thisUser);
                     user1.addChat(thisUser.getMail());
                     user1.addMessage(thisUser.getMail(), "שלום");
-
-
-                    database = FirebaseDatabase.getInstance();
-                    DatabaseReference myRef = database.getReference("users");
-
-                    userRef = database.getReference("users/" + user1.getDataSnapshot());
-                    userRef.setValue(user1);
+                    db.updateOtherUserInDB(user1);
                 }
 
                 startActivity(intent);

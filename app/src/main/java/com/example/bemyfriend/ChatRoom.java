@@ -17,28 +17,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnListListener{
+public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnListListener, Observer{
     private Toolbar toolbar;
     private ArrayList<ChatMessage> messages = new ArrayList<>();
-    private FirebaseAuth mAuth;
     private User otherUser, thisUser;
-    private String sessionId;
+    private String partnerMail;
     private String flushName;
     private boolean alreadyResetToZero= false;
+    private DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
-        mAuth = FirebaseAuth.getInstance();
+
+        db= DB.getInstance();
+        thisUser= db.getMyUser();
+        db.attachChat(this);
 
         //set the toolbar
         toolbar = findViewById(R.id.mytoolbar);
@@ -46,10 +44,12 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
         toolbar.setTitle("צ'אט");
 
         //get the partner mail
-        sessionId = getIntent().getStringExtra("mail");
+        partnerMail = getIntent().getStringExtra("mail");
 
         //find the users at the firebase
-        FindUsers();
+        otherUser= db.getPartnerName(partnerMail);
+
+        flushName= FlushName(thisUser,otherUser);
 
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
@@ -58,30 +58,26 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
             @Override
             public void onClick(View view) {
                 EditText input = (EditText)findViewById(R.id.input);
+                String message= input.getText().toString();
 
-                // Read the input field and push a new instance
-                // of ChatMessage to the Firebase database
-                FirebaseDatabase.getInstance().getReference("chats/" + flushName).push()
-                        .setValue(new ChatMessage(input.getText().toString(),
-                                FirebaseAuth.getInstance().getCurrentUser().getEmail())
-                        );
-
+                db.sendMessage(flushName,message);
                 //add last message for my
-                thisUser.addMyMessage(sessionId,input.getText().toString());
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference userRef = database.getReference("users/" + thisUser.getDataSnapshot());
-                userRef.setValue(thisUser);
-
+                thisUser.addMyMessage(partnerMail,message);
+                db.updateUserInDB(thisUser);
                 //add last message for the partner
-                otherUser.addMessage(mAuth.getCurrentUser().getEmail(), input.getText().toString());
-                userRef = database.getReference("users/" + otherUser.getDataSnapshot());
-                userRef.setValue(otherUser);
+                otherUser.addMessage(thisUser.getMail(), message);
+                db.updateOtherUserInDB(otherUser);
 
                 // Clear the input
                 input.setText("");
             }
         });
-
+        ImageView icon= findViewById(R.id.imageView3);
+        TextView name= findViewById(R.id.textView2);
+        name.setText(otherUser.getChildName() + " (" + otherUser.getParentName() + ")");
+        icon.setImageResource(name.getResources().getIdentifier(otherUser.getPicId(),
+                "drawable", name.getContext().getPackageName()));
+        CreateChatMessages();
     }
 
 
@@ -90,94 +86,23 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
         super.onStop();
         //reset unread messages
         thisUser.setUnreedMassegesToZero(otherUser.getMail());
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users/" + thisUser.getDataSnapshot());
-        myRef.setValue(thisUser);
+        db.updateUserInDB(thisUser);
     }
 
-    private void FindUsers() {
-        TextView textView = findViewById(R.id.textView2);
-        ImageView imageView = findViewById(R.id.imageView3);
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("users");
-
-        myRef.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot currentUser: dataSnapshot.getChildren()) {
-                    User val = currentUser.getValue(User.class);
-                    if (val.getMail().equals(mAuth.getCurrentUser().getEmail())){
-                        thisUser = val;
-                    }
-                    if (sessionId.equals(val.getMail())) {
-                        otherUser = val;
-                        textView.setText(val.getChildName() + " (" + val.getParentName() + ")");
-                        imageView.setImageResource(textView.getResources().getIdentifier(val.getPicId(),
-                                "drawable", textView.getContext().getPackageName()));
-                    }
-                }
-
-                flushName = FlushName(thisUser, otherUser);
-                CreateChatMessages();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        alreadyResetToZero= true;
-
-    }
-
-    public void CreateChatMessages(){
-        if(alreadyResetToZero) {
-            //reset unread messages
-            thisUser.setUnreedMassegesToZero(otherUser.getMail());
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference myRef = database.getReference("users/" + thisUser.getDataSnapshot());
-            myRef.setValue(thisUser);
-            alreadyResetToZero=false;
-        }
-        RecyclerView listOfMessages =  findViewById(R.id.messageRecyclerView);
+    public void CreateChatMessages() {
+        RecyclerView listOfMessages = findViewById(R.id.messageRecyclerView);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         ((LinearLayoutManager) layoutManager).setStackFromEnd(true);
         listOfMessages.setLayoutManager(layoutManager);
 
-        FirebaseDatabase database2 = FirebaseDatabase.getInstance();
-        DatabaseReference myRef2 = database2.getReference("chats/" + flushName);
+        messages = db.getChatMessages(flushName);
 
-        final ChatMessageAdapter adapter = new ChatMessageAdapter(messages, thisUser.getMail());
-
-        myRef2.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //add messages from firebase
-                messages.clear();
-                for (DataSnapshot currentUser: dataSnapshot.getChildren()) {
-                    ChatMessage val = currentUser.getValue(ChatMessage.class);
-                    ChatMessage c = new ChatMessage(
-                            val.getMessageText(),
-                            val.getMessageUser(),
-                            val.getMessageTime()
-                    );
-                    messages.add(c);
-                }
-                adapter.setMessages(messages);
-                adapter.notifyDataSetChanged();
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        ChatMessageAdapter adapter = new ChatMessageAdapter(messages, thisUser.getMail());
+        adapter.setMessages(messages);
+        adapter.notifyDataSetChanged();
         listOfMessages.setAdapter(adapter);
-
     }
+
 
     @Override
     public void onListClick(int position) {
@@ -232,17 +157,13 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
         }
         if (item.getItemId() == R.id.menuchat_deletechat) {
 
-            //delete chat from firebase
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            thisUser.deleteChat(sessionId);
-            DatabaseReference userRef = database.getReference("users/" + thisUser.getDataSnapshot());
-            userRef.setValue(thisUser);
+            thisUser.deleteChat(partnerMail);
+            db.updateUserInDB(thisUser);
             otherUser.deleteChat(thisUser.getMail());
-            userRef = database.getReference("users/" + otherUser.getDataSnapshot());
-            userRef.setValue(otherUser);
+            db.updateOtherUserInDB(otherUser);
+            db.deleteChat(flushName);
 
-            DatabaseReference temp = FirebaseDatabase.getInstance().getReference("chats/" + flushName);
-            temp.setValue(null);
+
 
             startActivity(new Intent(this, Chats.class));
             finish();
@@ -250,4 +171,8 @@ public class ChatRoom extends AppCompatActivity  implements newFriendAdapter.OnL
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void update() {
+        CreateChatMessages();
+    }
 }

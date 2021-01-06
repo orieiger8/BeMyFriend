@@ -58,7 +58,7 @@ public class newFriendAdapter extends RecyclerView.Adapter<newFriendAdapter.newF
         User currentNewFriend = nf.get(position);
         String h = "";
         if (currentNewFriend.getHobby().getBoardGames())
-            h += "משחקי קופסא";
+            h += "משחקי קופסא ";
         if (currentNewFriend.getHobby().getScience())
             h += "מדעים, ";
         if (currentNewFriend.getHobby().getArt())

@@ -9,21 +9,15 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class EditProfile extends AppCompatActivity {
-    DataSnapshot User;
-    User userVal;
+    User thisUser;
+    DB db;
 
     String parentNameText, cities, childNameText, moreD, mails, passwords;
     int ages;
@@ -59,7 +53,9 @@ public class EditProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        mAuth = FirebaseAuth.getInstance();
+
+        db = DB.getInstance();
+        thisUser = db.getMyUser();
 
         toolbar=findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
@@ -87,34 +83,7 @@ public class EditProfile extends AppCompatActivity {
         sportCheckBox = findViewById(R.id.checkBoxEditSport);
         //
 
-        // get user from firebase
-        FirebaseDatabase database= FirebaseDatabase.getInstance();
-        DatabaseReference myRef= database.getReference("users");
-
-        myRef.addValueEventListener(new ValueEventListener(){
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot currentUser: dataSnapshot.getChildren()) {
-                    User val = currentUser.getValue(User.class);
-                    String currentUserMail = mAuth.getCurrentUser().getEmail();
-                    String mailLoop = val.getMail();
-
-                    if (currentUserMail.equals(mailLoop)) {
-                        User = currentUser;
-                        userVal = val;
-                        RenderUserInfoToView(val);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
+        RenderUserInfoToView(thisUser);
     }
 
     public void RenderUserInfoToView(User val) {
@@ -146,7 +115,7 @@ public class EditProfile extends AppCompatActivity {
             mOption.check(R.id.editUser_radioButtonEditMale);
         else if (val.getGender().equals("female"))
             mOption.check(R.id.editUser_radioButtonEditFemale);
-        picButton.setBackgroundResource(parentName.getResources().getIdentifier(userVal.getPicId(),
+        picButton.setBackgroundResource(parentName.getResources().getIdentifier(thisUser.getPicId(),
                 "drawable", parentName.getContext().getPackageName()));
         if (boardGames)
             boardGamesCheckBox.setChecked(true);
@@ -184,28 +153,25 @@ public class EditProfile extends AppCompatActivity {
 
 
         if (!pName.isEmpty())
-            userVal.setParentName(pName);
+            thisUser.setParentName(pName);
         if (!cName.isEmpty())
-            userVal.setChildName(cName);
+            thisUser.setChildName(cName);
         if (!address.isEmpty())
-            userVal.setAddress(address);
+            thisUser.setAddress(address);
         if (!age.isEmpty())
-            userVal.setAge(Integer.parseInt(age));
+            thisUser.setAge(Integer.parseInt(age));
         if (!details.isEmpty())
-            userVal.setDetails(details);
+            thisUser.setDetails(details);
 
-        if (isMale) userVal.setGender("male");
-        else if (isFemale) userVal.setGender("female");
-        else userVal.setGender("non");
+        if (isMale) thisUser.setGender("male");
+        else if (isFemale) thisUser.setGender("female");
+        else thisUser.setGender("non");
 
         Hobbies h = new Hobbies(pBoardgames,pScience,pNature,pSport,pArt,pGaming,pMusic,other);
-        userVal.setHobby(h);
+        thisUser.setHobby(h);
 
         // save to db
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference userRef = database.getReference("users/" + User.getKey());
-        userRef.setValue(userVal);
-
+        db.updateUserInDB(thisUser);
         // end activity
         startActivity(new Intent(EditProfile.this, MyProfile.class));
         finish();
@@ -240,8 +206,8 @@ public class EditProfile extends AppCompatActivity {
     }
 
     private void setPicture(int i, AlertDialog dlg) {
-        userVal.setPicId("profile" + i);
-        picButton.setBackgroundResource(parentName.getResources().getIdentifier(userVal.getPicId(),
+        thisUser.setPicId("profile" + i);
+        picButton.setBackgroundResource(parentName.getResources().getIdentifier(thisUser.getPicId(),
                 "drawable", parentName.getContext().getPackageName()));
         dlg.dismiss();
     }

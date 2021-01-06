@@ -33,16 +33,18 @@ public class Login extends AppCompatActivity {
 
         Button button = (Button) findViewById(R.id.forgotpasswordbutton);
         button.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+
     }
-    @Override
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        if (mAuth.getCurrentUser() != null) {
-            startActivity(new Intent(Login.this, Chats.class));
-            finish();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//
+//        // Check if user is signed in (non-null) and update UI accordingly.
+//        if (mAuth.getCurrentUser() != null) {
+//            startActivity(new Intent(Login.this, Chats.class));
+//            finish();
+//        }
+//    }
 
     public void login(View view) {
         EditText passwordText= findViewById(R.id.editTextpassword);
@@ -55,6 +57,10 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
+                                // notify DB
+                                DB.getInstance().LoggedIn();
+
+                                // move to main page
                                 startActivity(new Intent(Login.this, Chats.class));
                                 finish();
                             } else {
@@ -70,7 +76,6 @@ public class Login extends AppCompatActivity {
 
     public void moveToRegister(View view) {
         startActivity(new Intent(Login.this, Register.class));
-        finish();
     }
 
     //popup window forgot password

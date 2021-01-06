@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class User {
-    private String parentName, childName, mail, address, details, gender, picId, dataSnapshot;
+    private String parentName, childName, mail, address, details, gender, picId;
     private int age;
     private Hobbies hobby;
     private ArrayList<Chat> chats = new ArrayList<>();
 
-    public User(String parentName, String childName, String mail, String address, int age, String details, String gender, String picId, Hobbies hobby, String dataSnapshot) {
+    public User(String parentName, String childName, String mail, String address, int age,
+                String details, String gender, String picId, Hobbies hobby) {
         this.parentName = parentName;
         this.childName = childName;
         this.mail = mail;
@@ -19,7 +20,6 @@ public class User {
         this.gender = gender;
         this.picId = picId;
         this.hobby = hobby;
-        this.dataSnapshot = dataSnapshot;
     }
 
     public User() {
@@ -33,10 +33,6 @@ public class User {
         }
     }
 
-    public void setDataSnapshot(String dataSnapshot) {
-        this.dataSnapshot = dataSnapshot;
-    }
-
     public void deleteChat(String mail2) {
         for (int i = 0; i < chats.size(); i++) {
             if (chats.get(i).getMail().equals(mail2)) {
@@ -44,11 +40,6 @@ public class User {
             }
         }
     }
-
-    public String getDataSnapshot() {
-        return dataSnapshot;
-    }
-
     public void addChat(String name){
         chats.add(new Chat(name));
     }
