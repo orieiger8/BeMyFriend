@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/teal_700"
         android:onClick="filter"
-        android:text="סינון"
+        android:text="@string/filter"
         android:textColor="#FFFFFF"
         android:textSize="17sp"
         android:textStyle="bold"

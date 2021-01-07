@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements newFriendAdapter.
         //set the toolbar
         toolBar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolBar);
-        toolBar.setTitle("מצא חברים חדשים");
+        toolBar.setTitle(R.string.find_new_friends);
 
         //create recycler view layout
         final RecyclerView recyclerView1 = findViewById(R.id.recyclerViewFindFriends);

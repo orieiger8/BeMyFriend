@@ -21,7 +21,7 @@
         android:id="@+id/textViewregister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="הרשמה"
+        android:text="@string/register"
         android:textColor="@color/teal_700"
         android:textSize="30sp"
         android:textStyle="bold"
@@ -53,7 +53,7 @@
                 android:layout_height="match_parent"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="פרטי ההורה"
+                android:text="@string/parent_details"
                 android:textColor="@color/teal_700"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -72,7 +72,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="start|center_vertical"
-                android:hint="שם ההורה"
+                android:hint="@string/parent_name"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -89,7 +89,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="start|center_vertical"
-                android:hint="מייל"
+                android:hint="@string/mail"
                 android:inputType="textEmailAddress"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -106,7 +106,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="right|center_vertical"
-                android:hint="סיסמה"
+                android:hint="@string/password"
                 android:inputType="textPassword"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -123,7 +123,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="right|center_vertical"
-                android:hint="עיר"
+                android:hint="@string/city"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -135,7 +135,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="77dp"
                 android:gravity="center"
-                android:text="פרטי הילד/ה"
+                android:text="@string/child_details"
                 android:textColor="@color/teal_700"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -152,7 +152,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="start|center_vertical"
-                android:hint="שם הילד/ה"
+                android:hint="@string/child_name"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -169,7 +169,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="start|center_vertical"
-                android:hint="גיל"
+                android:hint="@string/age"
                 android:inputType="number"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -182,7 +182,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="תחומי עניין:"
+                android:text="@string/interest"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -193,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="משחקי קופסא"
+                android:text="@string/board_games"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -202,7 +202,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="מדעים"
+                android:text="@string/science"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -211,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="טבע"
+                android:text="@string/nature"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -220,7 +220,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="ספורט"
+                android:text="@string/sport"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -229,7 +229,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="אומנות"
+                android:text="@string/art"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -238,7 +238,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="משחקי מחשב"
+                android:text="@string/gaming"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -247,7 +247,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="מוזיקה"
+                android:text="@string/music"
                 android:textSize="18sp" />
 
             <EditText
@@ -259,7 +259,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="center|start|center_vertical"
-                android:hint="אחר:"
+                android:hint="@string/other"
                 android:inputType="textPersonName"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
@@ -282,7 +282,7 @@
                     android:layout_height="wrap_content"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorSingle"
-                    android:text="זכר"
+                    android:text="@string/male"
                     android:textColor="#090808"
                     android:textSize="18sp" />
 
@@ -292,7 +292,7 @@
                     android:layout_height="wrap_content"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorSingle"
-                    android:text="נקבה"
+                    android:text="@string/female"
                     android:textColor="#090808"
                     android:textSize="18sp" />
 
@@ -307,7 +307,7 @@
                 android:background="@drawable/white_overlay"
                 android:ems="10"
                 android:gravity="start"
-                android:hint="ספר/י לנו על הילד/ה שלך"
+                android:hint="@string/more_details"
                 android:inputType="textMultiLine"
                 android:paddingStart="10dp"
                 android:paddingTop="10dp"
@@ -323,7 +323,7 @@
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/teal_700"
                 android:onClick="register"
-                android:text="הרשמה"
+                android:text="@string/register"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:textStyle="bold"

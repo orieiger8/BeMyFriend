@@ -63,7 +63,7 @@ public class EditProfile extends AppCompatActivity {
         //set the toolbar
         toolbar=findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("עריכת פרופיל");
+        toolbar.setTitle(R.string.edit_profile);
 
         // get layout components
         parentName = findViewById(R.id.editTextEditName);

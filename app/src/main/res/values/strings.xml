@@ -1,3 +1,43 @@
 <resources>
     <string name="app_name">BeMyFriend</string>
+    <string name="mail">דוא"ל</string>
+    <string name="register">הרשמה</string>
+    <string name="type_message">הכנס הודעה</string>
+    <string name="find_new_friends">מצא חברים חדשים</string>
+    <string name="push_to_change">לחץ על התמונה כדי להחליף תמונת פרופיל</string>
+    <string name="parent_details">פרטי ההורה</string>
+    <string name="parent_name">שם ההורה: </string>
+    <string name="city">עיר מגורים: </string>
+    <string name="child_details">פרטי הילד/ה: </string>
+    <string name="child_name">שם הילד/ה: </string>
+    <string name="age">גיל: </string>
+    <string name="interest">תחומי עניין: </string>
+    <string name="board_games">משחקי קופסא</string>
+    <string name="science">מדעים</string>
+    <string name="nature">טבע</string>
+    <string name="sport">ספורט</string>
+    <string name="art">אומנות</string>
+    <string name="gaming">משחקי מחשב</string>
+    <string name="music">מוזיקה</string>
+    <string name="other">אחר</string>
+    <string name="male">זכר</string>
+    <string name="female">נקבה</string>
+    <string name="more_details">עוד על הילד/ה: </string>
+    <string name="save">שמור</string>
+    <string name="cancel">ביטול</string>
+    <string name="enter">כניסה</string>
+    <string name="password">סיסמה</string>
+    <string name="forgot_password">שכחתי סיסמה</string>
+    <string name="no_user">אין משתמש?</string>
+    <string name="filter">סינון</string>
+    <string name="edit_profile">ערוך פרופיל</string>
+    <string name="profile_pic">תמונת פרופיל: </string>
+    <string name="gender">מגדר: </string>
+    <string name="choose_pic">בחר תמונת פרופיל</string>
+    <string name="reset_password">אפס סיסמה</string>
+    <string name="back">חזור</string>
+    <string name="my_profile">הפרופיל שלי</string>
+    <string name="exit">יצאה</string>
+
+
 </resources>

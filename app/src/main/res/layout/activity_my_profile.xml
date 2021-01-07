@@ -33,7 +33,7 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="תמונת פרופיל:"
+                android:text="@string/profile_pic"
                 android:textAlignment="center"
                 android:textColor="#000000"
                 android:textSize="18sp" />
@@ -52,7 +52,7 @@
                 android:layout_marginTop="16dp"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="פרטי ההורה"
+                android:text="@string/parent_details"
                 android:textColor="@color/teal_700"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -65,7 +65,7 @@
                 android:id="@+id/textViewParentNamemored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="שם ההורה: "
+                android:text="@string/parent_name"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -73,7 +73,7 @@
                 android:id="@+id/textViewMail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="מייל:"
+                android:text="@string/mail"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -81,7 +81,7 @@
                 android:id="@+id/textViewCitymored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="עיר מגורים:"
+                android:text="@string/city"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -91,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="77dp"
                 android:gravity="center"
-                android:text="פרטי הילד"
+                android:text="@string/child_details"
                 android:textColor="@color/teal_700"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -103,7 +103,7 @@
                 android:id="@+id/textViewChildNamemored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="שם הילד: "
+                android:text="@string/child_name"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -112,7 +112,7 @@
                 android:id="@+id/textViewHobbies"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="תחומי עניין:"
+                android:text="@string/interest"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -120,7 +120,7 @@
                 android:id="@+id/textViewAgemored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="גיל:"
+                android:text="@string/age"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -136,7 +136,7 @@
                 android:id="@+id/textViewDetailsmored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="עוד על הילד:"
+                android:text="@string/more_details"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 
@@ -151,7 +151,7 @@
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/teal_700"
         android:onClick="moveToEditProfile"
-        android:text="ערוך פרופיל"
+        android:text="@string/edit_profile"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"

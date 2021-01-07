@@ -71,8 +71,9 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
             Chat temp= null;
             for(int i=0; i<chats.size(); i++) {
                 int newChat= 0;
+                temp=chats.get(i);
                 for(int j=0;j<chats.size();j++) {
-                    if(chats.get(i).getTime()<chats.get(i).getTime()){
+                    if(chats.get(i).getTime()<chats.get(j).getTime()){
                         temp= chats.get(j);
                         newChat=j;
                     }

@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/teal_700"
         android:onClick="cancelChanges"
-        android:text="ביטול"
+        android:text="@string/cancel"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -36,7 +36,7 @@
         android:layout_marginBottom="24dp"
         android:backgroundTint="@color/teal_700"
         android:onClick="saveChanges"
-        android:text="שמור"
+        android:text="@string/save"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold"
@@ -51,7 +51,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:onClick="openPicChoosing"
-        android:text="לחץ על התמונה כדי להחליף תמונת פרופיל"
+        android:text="@string/push_to_change"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +93,7 @@
                 android:layout_height="match_parent"
                 android:foregroundGravity="center"
                 android:gravity="center"
-                android:text="פרטי ההורה"
+                android:text="@string/parent_details"
                 android:textColor="@color/teal_700"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -131,7 +131,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="שם ההורה: "
+                        android:text="@string/parent_name"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -161,7 +161,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="עיר: "
+                        android:text="@string/city"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -175,7 +175,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="77dp"
                 android:gravity="center"
-                android:text="פרטי הילד"
+                android:text="@string/child_details"
                 android:textColor="@color/teal_700"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -212,7 +212,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="שם הילד: "
+                        android:text="@string/child_name"
                         android:textColor="#000000"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -255,7 +255,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="תחומי עניין:"
+                android:text="@string/interest"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -266,7 +266,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="משחקי קופסא"
+                android:text="@string/board_games"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -275,7 +275,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="מדעים"
+                android:text="@string/science"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -284,7 +284,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="טבע"
+                android:text="@string/nature"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -293,7 +293,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="ספורט"
+                android:text="@string/sport"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -302,7 +302,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="אומנות"
+                android:text="@string/art"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -311,7 +311,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="משחקי מחשב"
+                android:text="@string/gaming"
                 android:textSize="18sp" />
 
             <CheckBox
@@ -320,7 +320,7 @@
                 android:layout_height="wrap_content"
                 android:button="@null"
                 android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
-                android:text="מוזיקה"
+                android:text="@string/music"
                 android:textSize="18sp" />
 
             <TableLayout
@@ -350,7 +350,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="end"
-                        android:text="אחר: "
+                        android:text="@string/other"
                         android:textColor="#000000"
                         android:textSize="18sp" />
                 </TableRow>
@@ -372,7 +372,7 @@
                     android:layout_height="wrap_content"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorSingle"
-                    android:text="זכר"
+                    android:text="@string/male"
                     android:textColor="#090808"
                     android:textSize="18sp" />
 
@@ -382,7 +382,7 @@
                     android:layout_height="wrap_content"
                     android:button="@null"
                     android:drawableRight="?android:attr/listChoiceIndicatorSingle"
-                    android:text="נקבה"
+                    android:text="@string/female"
                     android:textColor="#090808"
                     android:textSize="18sp" />
 
@@ -394,7 +394,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginTop="24dp"
-                android:text="ספר לנו על הילד שלך:"
+                android:text="@string/more_details"
                 android:textColor="#000000"
                 android:textSize="18sp"
                 android:textStyle="bold" />

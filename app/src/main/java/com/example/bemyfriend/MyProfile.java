@@ -31,7 +31,7 @@ public class MyProfile extends AppCompatActivity {
         //set the toolbar
         toolbar = findViewById(R.id.mytoolbar);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("הפרופיל שלי");
+        toolbar.setTitle(R.string.my_profile);
 
         final TextView parentName = (TextView) findViewById(R.id.textViewParentNamemored);
         final TextView mail = (TextView) findViewById(R.id.textViewMail);

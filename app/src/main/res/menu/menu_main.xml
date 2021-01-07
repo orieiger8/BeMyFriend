@@ -4,8 +4,8 @@
 
     <item
         android:id="@+id/menu_myprofile"
-        android:title="הפרופיל שלי" />
+        android:title="@string/my_profile" />
     <item
         android:id="@+id/menu_logout"
-        android:title="יציאה" />
+        android:title="@string/exit" />
 </menu>

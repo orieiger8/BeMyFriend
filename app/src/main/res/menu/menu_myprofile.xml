@@ -7,8 +7,8 @@
         android:title="צ'אטים" />
     <item
         android:id="@+id/menu_myprofile_findnewfriends"
-        android:title="מצא חברים חדשים" />
+        android:title="@string/find_new_friends" />
     <item
         android:id="@+id/menu_myprofile_logout"
-        android:title="יציאה" />
+        android:title="@string/exit" />
 </menu>
