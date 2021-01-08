@@ -24,6 +24,7 @@ public class Login extends AppCompatActivity {
     private AlertDialog dialog;
     private String mail="";
     private EditText editTextMail;
+    private DB db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +32,10 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         mAuth = FirebaseAuth.getInstance();
 
-        Button button = (Button) findViewById(R.id.forgotpasswordbutton);
+        Button button = findViewById(R.id.forgotpasswordbutton);
         button.setPaintFlags(button.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
+        db= DB.getInstance();
     }
 
     public void login(View view) {
@@ -91,15 +93,19 @@ public class Login extends AppCompatActivity {
                 if (mail.equals(""))
                     Toast.makeText(Login.this, "הכנס מייל", Toast.LENGTH_LONG).show();
                 else {
-                    mAuth.sendPasswordResetEmail(mail).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isComplete()) {
-                                Toast.makeText(Login.this, "מייל לאיפוס סיסמה נשלח", Toast.LENGTH_LONG).show();
-                                dialog.dismiss();
+                    if (db.mailExist(mail)) {
+                        mAuth.sendPasswordResetEmail(mail).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isComplete()) {
+                                    Toast.makeText(Login.this, "מייל לאיפוס סיסמה נשלח", Toast.LENGTH_LONG).show();
+                                    dialog.dismiss();
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else
+                        Toast.makeText(Login.this, "מייל זה אינו קיים במערכת", Toast.LENGTH_LONG).show();
                 }
             }
         });

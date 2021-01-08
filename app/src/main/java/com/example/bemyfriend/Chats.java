@@ -21,7 +21,6 @@ import java.util.Random;
 public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerViewClickListener {
 
     private Toolbar toolbar;
-    Random rg = new Random();
     private ArrayList<Chat> chats = new ArrayList<>();
     private ArrayList<Chat> finalChats = new ArrayList<>();
     private ChatAdapter.RecyclerViewClickListener listener;

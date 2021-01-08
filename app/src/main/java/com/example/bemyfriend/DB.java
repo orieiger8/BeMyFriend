@@ -180,6 +180,16 @@ public class DB {
         return messages;
     }
 
+    public boolean mailExist(String mail){
+        for (DataSnapshot currentUser : usersSnap.getChildren()) {
+            User val = currentUser.getValue(User.class);
+            if(val.getMail().equals(mail)){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void sendMessage(String flushName, String message){
         // Read the input field and push a new instance
         // of ChatMessage to the Firebase database

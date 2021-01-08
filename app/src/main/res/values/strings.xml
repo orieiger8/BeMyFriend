@@ -37,7 +37,8 @@
     <string name="reset_password">אפס סיסמה</string>
     <string name="back">חזור</string>
     <string name="my_profile">הפרופיל שלי</string>
-    <string name="exit">יצאה</string>
+    <string name="exit">יציאה</string>
+    <string name="loading">טוען</string>
 
 
 </resources>
