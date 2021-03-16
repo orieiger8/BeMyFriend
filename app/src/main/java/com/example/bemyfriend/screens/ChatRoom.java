@@ -20,15 +20,15 @@ import com.example.bemyfriend.adapter.ChatMessageAdapter;
 import com.example.bemyfriend.adapter.NewFriendAdapter;
 import com.example.bemyfriend.model.ChatMessage;
 import com.example.bemyfriend.presenter.ChatRoomPresenter;
-import com.example.bemyfriend.utils.AudioPlayer;
+import com.example.bemyfriend.utils.Helper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
 public class ChatRoom extends AppCompatActivity implements NewFriendAdapter.OnListListener {
     private Toolbar toolbar;
     private ChatRoomPresenter presenter;
+    private MenuItem startMusic, stopMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,43 +109,42 @@ public class ChatRoom extends AppCompatActivity implements NewFriendAdapter.OnLi
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_chat_room, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        menu.findItem(R.id.menu_chats).setVisible(true);
+        menu.findItem(R.id.menu_delete_chat).setVisible(true);
+        menu.findItem(R.id.menu_find_new_friends).setVisible(true);
+        menu.findItem(R.id.menu_logout).setVisible(true);
+        menu.findItem(R.id.menu_my_profile).setVisible(true);
+        menu.findItem(R.id.app_bar_search).setVisible(false);
+        startMusic= menu.findItem(R.id.menu_start_music);
+        stopMusic= menu.findItem(R.id.menu_stop_music);
+        if(Helper.IsMusicON()){
+            stopMusic.setVisible(true);
+            startMusic.setVisible(false);
+        }
+        else {
+            stopMusic.setVisible(false);
+            startMusic.setVisible(true);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.menu_chat_room_logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, Login.class));
+        Intent intent= Helper.MenuSelect(item, this, startMusic, stopMusic);
+        if(intent!=null){
+            startActivity(intent);
             finish();
         }
-        if (item.getItemId() == R.id.menu_chat_room_myprofile) {
-            startActivity(new Intent(this, MyProfile.class));
-            finish();
-        }
-        if (item.getItemId() == R.id.menu_chat_room_chats) {
-            startActivity(new Intent(this, Chats.class));
-            finish();
-        }
-        if (item.getItemId() == R.id.menu_chat_room_findnewfriends) {
-            startActivity(new Intent(this, FindNewFriends.class));
-            finish();
-        }
-        if (item.getItemId() == R.id.menu_chat_room_deletechat) {
+        else if (item.getItemId() == R.id.menu_delete_chat) {
             presenter.deleteChat();
 
             startActivity(new Intent(this, Chats.class));
             finish();
         }
-        if (item.getItemId() == R.id.menu_chat_room_music) {
-            if(AudioPlayer.getInstance().isPlaying()){
-                AudioPlayer.getInstance().stop();
-            }
-            else {
-                AudioPlayer.getInstance().play(this, R.raw.never_gonna_give_you_up);
-            }
-        }
+
+
         return super.onOptionsItemSelected(item);
     }
 }

@@ -15,8 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.bemyfriend.R;
 import com.example.bemyfriend.adapter.ChatAdapter;
 import com.example.bemyfriend.presenter.ChatsPresenter;
-import com.example.bemyfriend.utils.AudioPlayer;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.bemyfriend.utils.Helper;
 
 
 public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerViewClickListener {
@@ -25,6 +24,7 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
     private ChatAdapter.RecyclerViewClickListener listener;
     private ChatAdapter chatAdapter;
     private ChatsPresenter presenter;
+    private MenuItem startMusic, stopMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +70,24 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_chats_list, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
 
         MenuItem searchViewItem = menu.findItem(R.id.app_bar_search);
+        menu.findItem(R.id.menu_chats).setVisible(false);
+        menu.findItem(R.id.menu_delete_chat).setVisible(false);
+        menu.findItem(R.id.menu_find_new_friends).setVisible(true);
+        menu.findItem(R.id.menu_logout).setVisible(true);
+        menu.findItem(R.id.menu_my_profile).setVisible(true);
+        startMusic= menu.findItem(R.id.menu_start_music);
+        stopMusic= menu.findItem(R.id.menu_stop_music);
+        if(Helper.IsMusicON()){
+            stopMusic.setVisible(true);
+            startMusic.setVisible(false);
+        }
+        else {
+            stopMusic.setVisible(false);
+            startMusic.setVisible(true);
+        }
         final android.widget.SearchView searchBar = (android.widget.SearchView) searchViewItem.getActionView();
         searchBar.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
             @Override
@@ -108,26 +123,10 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.menu_find_new_friends_logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, Login.class));
+        Intent intent= Helper.MenuSelect(item, this, startMusic, stopMusic);
+        if(intent!=null){
+            startActivity(intent);
             finish();
-        }
-        if (item.getItemId() == R.id.menu_find_new_friends_myprofile) {
-            startActivity(new Intent(this, MyProfile.class));
-            finish();
-        }
-        if (item.getItemId() == R.id.menu_chat_room_findnewfriends) {
-            startActivity(new Intent(this, ChatRoom.class));
-            finish();
-        }
-        if (item.getItemId() == R.id.menu_chat_music) {
-            if(AudioPlayer.getInstance().isPlaying()){
-                AudioPlayer.getInstance().stop();
-            }
-            else {
-                AudioPlayer.getInstance().play(this, R.raw.never_gonna_give_you_up);
-            }
         }
 
         return super.onOptionsItemSelected(item);

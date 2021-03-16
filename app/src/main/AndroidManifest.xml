@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.BeMyFriend">
+        <service android:name=".utils.TrackPlayer"/>
         <activity android:name=".screens.Loading">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

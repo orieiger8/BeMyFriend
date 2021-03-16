@@ -1,18 +1,32 @@
 package com.example.bemyfriend.utils;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.view.MenuItem;
+
+import com.example.bemyfriend.R;
 import com.example.bemyfriend.model.User;
+import com.example.bemyfriend.screens.Chats;
+import com.example.bemyfriend.screens.FindNewFriends;
+import com.example.bemyfriend.screens.Login;
+import com.example.bemyfriend.screens.MyProfile;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Random;
 
 public class Helper {
     private static Random rg= new Random();
+    private static boolean musicOn= false;
     //create chat name for firebase
     public static String FlushName(User otherUser, User thisUser) {
         String name = AlphabetOrder(otherUser.getParentName(), thisUser.getParentName());
         String childName = AlphabetOrder(otherUser.getChildName(), thisUser.getChildName());
         String s = name + childName + (otherUser.getAge() + thisUser.getAge());
         return s;
+    }
+    public static boolean IsMusicON(){
+        return musicOn;
     }
 
     //sort the names by alphabetic order
@@ -72,5 +86,37 @@ public class Helper {
             }
         }
         return ans;
+    }
+    public static Intent MenuSelect(MenuItem item, Activity activity,
+                                    MenuItem startMusic, MenuItem stopMusic){
+        if (item.getItemId() == R.id.menu_logout) {
+            FirebaseAuth.getInstance().signOut();
+            return new Intent(activity, Login.class);
+        }
+        if (item.getItemId() == R.id.menu_chats) {
+            return new Intent(activity, Chats.class);
+        }
+        if (item.getItemId() == R.id.menu_find_new_friends) {
+            return new Intent(activity, FindNewFriends.class);
+        }
+        if (item.getItemId() == R.id.menu_my_profile) {
+            return new Intent(activity, MyProfile.class);
+        }
+
+        if (item.getItemId() == R.id.menu_start_music) {
+            Intent intent = new Intent(activity, TrackPlayer.class);
+            activity.startService(intent);
+            startMusic.setVisible(false);
+            stopMusic.setVisible(true);
+            musicOn= true;
+        }
+        if (item.getItemId() == R.id.menu_stop_music) {
+            Intent intent = new Intent(activity, TrackPlayer.class);
+            activity.stopService(intent);
+            stopMusic.setVisible(false);
+            startMusic.setVisible(true);
+            musicOn= false;
+        }
+        return null;
     }
 }

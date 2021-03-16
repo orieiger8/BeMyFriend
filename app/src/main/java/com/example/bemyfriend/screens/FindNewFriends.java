@@ -21,9 +21,7 @@ import com.example.bemyfriend.R;
 import com.example.bemyfriend.adapter.NewFriendAdapter;
 import com.example.bemyfriend.model.User;
 import com.example.bemyfriend.presenter.FindNewFriendsPresenter;
-import com.example.bemyfriend.utils.AudioPlayer;
 import com.example.bemyfriend.utils.Helper;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -38,6 +36,7 @@ public class FindNewFriends extends AppCompatActivity implements NewFriendAdapte
 
     private Toolbar toolBar;
     private FindNewFriendsPresenter presenter;
+    private MenuItem startMusic,stopMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,29 +81,33 @@ public class FindNewFriends extends AppCompatActivity implements NewFriendAdapte
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_find_new_friends, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.menu_chats).setVisible(true);
+        menu.findItem(R.id.menu_delete_chat).setVisible(false);
+        menu.findItem(R.id.menu_find_new_friends).setVisible(false);
+        menu.findItem(R.id.menu_logout).setVisible(true);
+        menu.findItem(R.id.menu_my_profile).setVisible(true);
+        menu.findItem(R.id.app_bar_search).setVisible(false);
+        startMusic= menu.findItem(R.id.menu_start_music);
+        stopMusic= menu.findItem(R.id.menu_stop_music);
+        if(Helper.IsMusicON()){
+            stopMusic.setVisible(true);
+            startMusic.setVisible(false);
+        }
+        else {
+            stopMusic.setVisible(false);
+            startMusic.setVisible(true);
+        }
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        if (item.getItemId() == R.id.menu_find_new_friends_logout) {
-            FirebaseAuth.getInstance().signOut();
-            startActivity(new Intent(this, Login.class));
+        Intent intent= Helper.MenuSelect(item, this, startMusic, stopMusic);
+        if(intent!=null){
+            startActivity(intent);
             finish();
-        }
-        if (item.getItemId() == R.id.menu_find_new_friends_myprofile) {
-            startActivity(new Intent(this, MyProfile.class));
-            finish();
-        }
-        if(item.getItemId()== R.id.menu_find_new_friends_music){
-            if(AudioPlayer.getInstance().isPlaying()){
-                AudioPlayer.getInstance().stop();
-            }
-            else {
-                AudioPlayer.getInstance().play(this, R.raw.never_gonna_give_you_up);
-            }
         }
         return super.onOptionsItemSelected(item);
     }
