@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bemyfriend">
 
+    <uses-permission android:name="android.permission.SEND_SMS"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,20 +11,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.BeMyFriend">
-        <activity android:name=".Loading">
+        <activity android:name=".screens.Loading">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Register" />
-        <activity android:name=".MyProfile" />
-        <activity android:name=".Login"></activity>
-        <activity android:name=".EditProfile" />
-        <activity android:name=".Chats" />
-        <activity android:name=".ChatRoom" />
-        <activity android:name=".MainActivity" />
-    </application>
+        <activity android:name=".screens.Register" />
+        <activity android:name=".screens.MyProfile" />
+        <activity android:name=".screens.Login"></activity>
+        <activity android:name=".screens.EditProfile" />
 
+        <activity android:name=".screens.Chats" >
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".screens.ChatRoom" />
+        <activity android:name=".screens.FindNewFriends" />
+    </application>
 </manifest>

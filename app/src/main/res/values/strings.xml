@@ -39,6 +39,25 @@
     <string name="my_profile">הפרופיל שלי</string>
     <string name="exit">יציאה</string>
     <string name="loading">טוען</string>
-
-
+    <string name="chats">"צ'אטים"</string>
+    <string name="delete_chats">"מחק צ'אט זה"</string>
+    <string name="start_new_chats">"התחל צ'אט"</string>
+    <string name="chat">"צ'אט"</string>
+    <string name="no_available_chats">"אין לך צ'אטים זמינים"</string>
+    <string name="have_not_found">לא נמצאו אנשים</string>
+    <string name="hello">שלום</string>
+    <string name="login_failed">כניסה נכשלה</string>
+    <string name="enter_mail">הכנס דוא"ל</string>
+    <string name="mail_sent">המייל נשלח</string>
+    <string name="mail_does_not_exist">כתובת הדוא"ל אינה קיימת במערכת</string>
+    <string name="mail_already_exist">דוא"ל זה כבר קיים במערכת</string>
+    <string name="password_must_have_6_chars">הסיסמה צריכה להכיל לפחות 6 תווים</string>
+    <string name="enter_parent_name">הכנס/י את שם ההורה</string>
+    <string name="enter_city">הכנס/י את עיר המגורים</string>
+    <string name="enter_child_name">הכנס/י את שם הילד</string>
+    <string name="enter_age">הכנס/י את גיל הילד</string>
+    <string name="enter_gender">הכנס/י את מין הילד</string>
+    <string name="mail_or_password_wrong_or_already_taken">
+        המייל או הסיסמה אינם נכונים או שמייל זה כבר בשימוש</string>
+    <string name="male_or_password_empty">המייל או הסיסמה ריקים</string>
 </resources>

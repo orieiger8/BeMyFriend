@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/chat_background"
-    tools:context=".MyProfile">
+    tools:context=".screens.MyProfile">
 
     <include
         android:id="@+id/mytoolbar"
@@ -109,14 +109,6 @@
 
 
             <TextView
-                android:id="@+id/textViewHobbies"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@string/interest"
-                android:textColor="#000000"
-                android:textSize="18sp" />
-
-            <TextView
                 android:id="@+id/textViewAgemored"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -129,6 +121,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="מין:"
+                android:textColor="#000000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textViewHobbies"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/interest"
                 android:textColor="#000000"
                 android:textSize="18sp" />
 

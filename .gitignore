@@ -103,8 +103,8 @@ obj/
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
-Thumbs.db
+ehthumbs.repository
+Thumbs.repository
 
 # Legacy Eclipse project files
 .classpath
