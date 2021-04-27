@@ -68,7 +68,7 @@ public class ChatRoom extends AppCompatActivity implements NewFriendAdapter.OnLi
         //put partner information in the activity
         ImageView icon = findViewById(R.id.imageView3);
         TextView name = findViewById(R.id.textView2);
-        name.setText(presenter.getOtherUser().getChildName() + " (" + presenter.getOtherUser().getParentName() + ")");
+        name.setText(presenter.getOtherUser().getParentName() + " (ההורה של: " + presenter.getOtherUser().getChildName() + ")");
         icon.setImageResource(name.getResources().getIdentifier(presenter.getOtherUser().getPicId(),
                 "drawable", name.getContext().getPackageName()));
         CreateChatMessages();

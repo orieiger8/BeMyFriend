@@ -139,7 +139,7 @@ public class Repository {
 
             //create chat with the user and put him in the list
             if (!val.getMail().equals(thisUser.getMail())) {
-                Chat c = new Chat(0, val.getChildName() + " (" + val.getParentName() + ")",
+                Chat c = new Chat(0, val.getParentName() + " (ההורה של: " + val.getChildName() + ")",
                         " ", val.getPicId(), 0, val.getMail());
                 for (int i = 0; i < thisUser.getChats().size(); i++) {
                     if (thisUser.getChats().get(i).getMail().equals(val.getMail())) {
