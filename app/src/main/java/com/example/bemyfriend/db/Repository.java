@@ -120,10 +120,10 @@ public class Repository {
         //find all users except my user
         for (DataSnapshot currentUser : usersSnap.getChildren()) {
             User val = currentUser.getValue(User.class);
-
             if (!val.getMail().equals(thisUser.getMail())) {
                 users.add(val);
             }
+
         }
         //return list of all users
         return users;
@@ -215,8 +215,8 @@ public class Repository {
         database.getReference("chats/" + flushName).setValue(null);
     }
 
-    public boolean userChanged(User otherUser){
-        if(thisUser.equals(otherUser))
+    public boolean userChanged(User otherUser) {
+        if (thisUser.equals(otherUser))
             return false;
         return true;
     }

@@ -1,13 +1,19 @@
 package com.example.bemyfriend.utils;
 
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.view.MenuItem;
+
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.bemyfriend.R;
 import com.example.bemyfriend.model.User;
 import com.example.bemyfriend.screens.Chats;
 import com.example.bemyfriend.screens.FindNewFriends;
+import com.example.bemyfriend.screens.Loading;
 import com.example.bemyfriend.screens.Login;
 import com.example.bemyfriend.screens.MyProfile;
 import com.google.firebase.auth.FirebaseAuth;
@@ -118,5 +124,25 @@ public class Helper {
             musicOn= false;
         }
         return null;
+    }
+    //TODO:make this work goot
+    public static void SendNotification(Context context){
+        // Create an explicit intent for an Activity in your app
+        Intent intent = new Intent(context, Loading.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "CHANNEL_ID")
+                .setSmallIcon(R.drawable.logo)
+                .setContentTitle("Be My Friend")
+                .setContentText("יש לך הודעות שלא נקראו")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                // Set the intent that will fire when the user taps the notification
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+
+// notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, builder.build());
     }
 }

@@ -83,11 +83,8 @@ public class Login extends AppCompatActivity {
                 if (finalMail.equals(""))
                     Toast.makeText(Login.this, R.string.enter_mail, Toast.LENGTH_LONG).show();
                 else {
-                    if (presenter.forgotPassword(finalMail)) {
-                        Toast.makeText(Login.this, R.string.mail_sent, Toast.LENGTH_LONG).show();
+                    if (presenter.forgotPassword(finalMail))
                         dialog.dismiss();
-                    } else
-                        Toast.makeText(Login.this, R.string.mail_does_not_exist, Toast.LENGTH_LONG).show();
                 }
             }
         });

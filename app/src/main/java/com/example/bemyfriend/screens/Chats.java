@@ -142,4 +142,8 @@ public class Chats extends AppCompatActivity implements ChatAdapter.RecyclerView
     public void OnClick(int position) {
         //chats.get(position);
     }
+    public void updateList(){
+        chatAdapter.setChats(presenter.createChatList());
+        chatAdapter.notifyDataSetChanged();
+    }
 }

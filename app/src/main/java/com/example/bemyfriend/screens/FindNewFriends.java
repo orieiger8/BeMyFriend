@@ -36,7 +36,7 @@ public class FindNewFriends extends AppCompatActivity implements NewFriendAdapte
 
     private Toolbar toolBar;
     private FindNewFriendsPresenter presenter;
-    private MenuItem startMusic,stopMusic;
+    private MenuItem startMusic, stopMusic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,13 +88,12 @@ public class FindNewFriends extends AppCompatActivity implements NewFriendAdapte
         menu.findItem(R.id.menu_logout).setVisible(true);
         menu.findItem(R.id.menu_my_profile).setVisible(true);
         menu.findItem(R.id.app_bar_search).setVisible(false);
-        startMusic= menu.findItem(R.id.menu_start_music);
-        stopMusic= menu.findItem(R.id.menu_stop_music);
-        if(Helper.IsMusicON()){
+        startMusic = menu.findItem(R.id.menu_start_music);
+        stopMusic = menu.findItem(R.id.menu_stop_music);
+        if (Helper.IsMusicON()) {
             stopMusic.setVisible(true);
             startMusic.setVisible(false);
-        }
-        else {
+        } else {
             stopMusic.setVisible(false);
             startMusic.setVisible(true);
         }
@@ -104,8 +103,8 @@ public class FindNewFriends extends AppCompatActivity implements NewFriendAdapte
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
 
-        Intent intent= Helper.MenuSelect(item, this, startMusic, stopMusic);
-        if(intent!=null){
+        Intent intent = Helper.MenuSelect(item, this, startMusic, stopMusic);
+        if (intent != null) {
             startActivity(intent);
             finish();
         }
@@ -205,9 +204,6 @@ public class FindNewFriends extends AppCompatActivity implements NewFriendAdapte
                 intent.putExtra("mail", thisUser.getMail());
 
                 if (presenter.createNewChat(thisUser)) {
-                    Toast.makeText(FindNewFriends.this,
-                            "צ'אט זה כבר קיים", Toast.LENGTH_LONG).show();
-                } else {
                     startActivity(intent);
                     finish();
                 }
@@ -223,5 +219,8 @@ public class FindNewFriends extends AppCompatActivity implements NewFriendAdapte
     }
 
 
+    public void setNetConnection(boolean b) {
+        presenter.setNetConnected(b);
+    }
 }
 

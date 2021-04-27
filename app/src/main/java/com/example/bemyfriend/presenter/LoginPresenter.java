@@ -1,7 +1,10 @@
 package com.example.bemyfriend.presenter;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
+import com.example.bemyfriend.R;
 import com.example.bemyfriend.db.Repository;
 import com.example.bemyfriend.screens.Login;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -46,11 +49,14 @@ public class LoginPresenter {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isComplete()) {
+                        Toast.makeText(activity, R.string.mail_sent, Toast.LENGTH_LONG).show();
                         ans2 = true;
                     }
                 }
             });
         }
+        else
+            Toast.makeText(activity, R.string.mail_does_not_exist, Toast.LENGTH_LONG).show();
         return ans2;
     }
 }

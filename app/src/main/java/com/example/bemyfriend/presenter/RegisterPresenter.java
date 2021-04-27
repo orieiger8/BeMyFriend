@@ -3,6 +3,7 @@ package com.example.bemyfriend.presenter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -43,7 +44,6 @@ public class RegisterPresenter {
         emailText = activity.findViewById(R.id.editTextMailR);
         passwordText = activity.findViewById(R.id.editTextPasswordR);
         parentNameText = activity.findViewById(R.id.editTextName);
-        phoneNumberText = activity.findViewById(R.id.editTextPhone);
         addressText = activity.findViewById(R.id.editTextCity);
         ageText = activity.findViewById(R.id.editTextAge);
         childNameText = activity.findViewById(R.id.editTextChildName);
@@ -63,7 +63,7 @@ public class RegisterPresenter {
 
     }
 
-    public void Register() {
+    public void Register(Register.RegisterMediator mediator) {
         toast = -1;
         male = maleButton.isChecked();
         female = femaleButton.isChecked();
@@ -116,10 +116,17 @@ public class RegisterPresenter {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if (task.isSuccessful()) {
                                     //create user
-                                    String gender;
-                                    if (male) gender = "male";
-                                    else if (female) gender = "female";
-                                    else gender = "non";
+                                    String gender, profile_pic;
+                                    if (male) {
+                                        gender = "male";
+                                        profile_pic = "profile" + Math.abs(rg.nextInt() % 16 + 1);
+                                    } else if (female) {
+                                        gender = "female";
+                                        profile_pic = "profile" + Math.abs(rg.nextInt() % 16 + 9);
+                                    } else {
+                                        gender = "non";
+                                        profile_pic = "non";
+                                    }
 
                                     Hobbies hobbies = new Hobbies(boardgames, science, nature, sport,
                                             art, gaming, music, otherHobby.getText().toString());
@@ -131,27 +138,33 @@ public class RegisterPresenter {
                                             addressText.getText().toString(),
                                             age,
                                             detailText.getText().toString(),
-                                            gender, "profile" + Math.abs(rg.nextInt() % 16 + 1),
-                                            hobbies);
+                                            gender, profile_pic, hobbies);
 
                                     repository.registerNewUserToFireBase(user);
 
                                     // notify DB
                                     Repository.getInstance().LoggedIn();
 
-                                    toast = -1;
+                                    mediator.DoneReg(true);
+
                                 } else {
                                     toast = R.string.mail_or_password_wrong_or_already_taken;
+                                    Toast.makeText(activity, toast, Toast.LENGTH_LONG).show();
+
+                                    mediator.DoneReg(false);
                                 }
-                                activity.registerComplete(toast);
                             }
                         });
             } else {
-                activity.registerComplete(toast);
+                Toast.makeText(activity, toast, Toast.LENGTH_LONG).show();
+
+                mediator.DoneReg(false);
             }
         } else {
             toast = R.string.male_or_password_empty;
-            activity.registerComplete(toast);
+            Toast.makeText(activity, toast, Toast.LENGTH_LONG).show();
+
+            mediator.DoneReg(false);
         }
     }
 }

@@ -1,13 +1,21 @@
 package com.example.bemyfriend.presenter;
 
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import com.example.bemyfriend.db.Repository;
 import com.example.bemyfriend.model.Chat;
 import com.example.bemyfriend.model.User;
 import com.example.bemyfriend.screens.Chats;
+import com.example.bemyfriend.utils.NotificationWorker;
+import com.example.bemyfriend.utils.Observer;
 
 import java.util.ArrayList;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
-public class ChatsPresenter {
+public class ChatsPresenter implements Observer {
     private Chats activity;
     private User thisUser;
     private Repository repository;
@@ -22,10 +30,17 @@ public class ChatsPresenter {
         //get my user
         thisUser = repository.getMyUser();
         //get all chats
+        chats = createChatList();
+
+        doNotificationService();
+    }
+
+    public ArrayList<Chat> createChatList(){
         chats = repository.getAllUsersChatsExceptMe();
         deleteUnmatchedChats();
         orderByTime();
         moveUnreadChatsUp();
+        return chats;
     }
 
     private void moveUnreadChatsUp() {
@@ -104,5 +119,27 @@ public class ChatsPresenter {
             }
             return finalChat;
         }
+    }
+
+
+    public UUID doNotificationService() {
+        WorkManager wm = WorkManager.getInstance(activity);
+        PeriodicWorkRequest request = new PeriodicWorkRequest.Builder(
+                NotificationWorker.class,15, TimeUnit.MINUTES)
+                .build();
+
+        wm.enqueueUniquePeriodicWork("notification", ExistingPeriodicWorkPolicy.KEEP,
+                request);
+
+//        WorkRequest request = new OneTimeWorkRequest.Builder(NotificationWorker.class).build();
+//
+//        wm.enqueue(request);
+
+        return request.getId();
+    }
+
+    @Override
+    public void update() {
+        activity.updateList();
     }
 }

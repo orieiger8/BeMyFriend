@@ -1,10 +1,15 @@
 package com.example.bemyfriend.presenter;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.widget.Toast;
+
 import com.example.bemyfriend.db.Repository;
 import com.example.bemyfriend.model.ChatMessage;
 import com.example.bemyfriend.model.User;
 import com.example.bemyfriend.screens.ChatRoom;
 import com.example.bemyfriend.utils.Helper;
+import com.example.bemyfriend.utils.InternetBroadcastReceiver;
 import com.example.bemyfriend.utils.Observer;
 
 import java.util.ArrayList;
@@ -15,6 +20,9 @@ public class ChatRoomPresenter implements Observer {
     private User otherUser, thisUser;
     private ArrayList<ChatMessage> messages = new ArrayList<>();
     private String partnerMail, flushName;
+    private InternetBroadcastReceiver netReceiver;
+    private boolean netConnected;
+
 
     public ChatRoomPresenter(ChatRoom activity, String partnerMail) {
         this.activity = activity;
@@ -38,18 +46,27 @@ public class ChatRoomPresenter implements Observer {
         thisUser.setUnreedMessagesToZero(otherUser.getMail());
         repository.updateUserInDB(thisUser);
 
+        // Set up Network Broadcast Receiver
+        netReceiver = new InternetBroadcastReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        activity.registerReceiver(netReceiver, filter);
     }
 
     public void sendMessage(String message) {
-        //put message in firebase in the chat
-        repository.sendMessage(flushName, message);
-        //add last message for my in firebase
-        thisUser.addMyMessage(partnerMail, message);
-        repository.updateUserInDB(thisUser);
-        //add last message for the partner in firebase
-        otherUser.addMessage(thisUser.getMail(), message);
-        repository.updateOtherUserInDB(otherUser);
-
+        if(netConnected) {
+            //put message in firebase in the chat
+            repository.sendMessage(flushName, message);
+            //add last message for my in firebase
+            thisUser.addMyMessage(partnerMail, message);
+            repository.updateUserInDB(thisUser);
+            //add last message for the partner in firebase
+            otherUser.addMessage(thisUser.getMail(), message);
+            repository.updateOtherUserInDB(otherUser);
+        }
+        else {
+            Toast.makeText(activity, "לא ניתן לשלוח הודעה כאשר אין רשת מחוברת",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 
     public User getOtherUser() {
@@ -85,4 +102,14 @@ public class ChatRoomPresenter implements Observer {
     public void update() {
         activity.CreateChatMessages();
     }
+
+
+    public boolean isNetConnected() {
+        return netConnected;
+    }
+
+    public void setNetConnected(boolean netConnected) {
+        this.netConnected = netConnected;
+    }
+
 }

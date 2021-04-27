@@ -1,4 +1,10 @@
 <resources>
+    <string name="notif_channel_name">BeMyFriendNotif</string>
+    <string name="notif_channel_desc">BeMyFriend\'s unread messages notifications</string>
+    <string name="notif_channel_id">BeMyFriend</string>
+
+
+
     <string name="app_name">BeMyFriend</string>
     <string name="mail">דוא"ל</string>
     <string name="register">הרשמה</string>

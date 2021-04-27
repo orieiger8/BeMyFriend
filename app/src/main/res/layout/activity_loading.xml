@@ -12,12 +12,13 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:indeterminateOnly="false"
-        android:progressDrawable="@drawable/circle_splash_screen"
         android:progress="0"
+        android:progressDrawable="@drawable/circle_splash_screen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.24000001" />
 
     <TextView
         android:id="@+id/textView_progress"
@@ -33,5 +34,32 @@
         app:layout_constraintEnd_toEndOf="@+id/imageView_progressBar"
         app:layout_constraintStart_toStartOf="@+id/imageView_progressBar"
         app:layout_constraintTop_toTopOf="@+id/imageView_progressBar" />
+
+    <ImageView
+        android:id="@+id/imageViewAnimation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView_progressBar"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/button_try_again"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="tryAgain"
+        android:text="נסה שנית"
+        android:visibility="gone"
+        android:layout_marginBottom="24dp"
+        android:backgroundTint="@color/teal_700"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewAnimation" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

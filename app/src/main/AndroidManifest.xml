@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bemyfriend">
 
-    <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -12,6 +13,12 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.BeMyFriend">
         <service android:name=".utils.TrackPlayer"/>
+        <receiver android:name=".utils.InternetBroadcastReceiver" >
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
         <activity android:name=".screens.Loading">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -35,5 +42,8 @@
 
         <activity android:name=".screens.ChatRoom" />
         <activity android:name=".screens.FindNewFriends" />
+        
+        
+        <service android:name=".utils.NotificationMan" />
     </application>
 </manifest>

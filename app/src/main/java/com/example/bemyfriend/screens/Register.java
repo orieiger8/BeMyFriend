@@ -3,7 +3,6 @@ package com.example.bemyfriend.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,17 +24,28 @@ public class Register extends AppCompatActivity {
     }
 
     public void register(View view) {
-        presenter.Register();
+        RegisterMediator mediator = new RegisterMediator(this);
+        presenter.Register(mediator);
     }
-    public void registerComplete(int toast){
-        if(toast==-1){
-            // move to main page
+    public void finishReg(boolean success) {
+        if (success) {
             startActivity(new Intent(Register.this, FindNewFriends.class));
             finish();
         }
-        else
-            Toast.makeText(Register.this, toast, Toast.LENGTH_LONG).show();
     }
+
+    public class RegisterMediator {
+        private Register reg;
+
+        public RegisterMediator(Register reg){
+            this.reg = reg;
+        }
+
+        public void DoneReg(boolean success) {
+            reg.finishReg(success);
+        }
+    }
+
 
 
     //verify phone number with sms (not working)

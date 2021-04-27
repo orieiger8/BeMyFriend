@@ -1,15 +1,19 @@
 package com.example.bemyfriend.presenter;
 
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.example.bemyfriend.R;
 import com.example.bemyfriend.db.Repository;
 import com.example.bemyfriend.model.User;
 import com.example.bemyfriend.screens.FindNewFriends;
 import com.example.bemyfriend.utils.Helper;
+import com.example.bemyfriend.utils.InternetBroadcastReceiver;
 import com.example.bemyfriend.utils.Observer;
 
 import java.util.ArrayList;
@@ -19,6 +23,8 @@ public class FindNewFriendsPresenter implements Observer {
     private Repository repository;
     private User thisUser;
     private ArrayList<User> usersList = new ArrayList<>();
+    private InternetBroadcastReceiver netReceiver;
+    private boolean netConnected;
 
     public FindNewFriendsPresenter(FindNewFriends activity) {
         this.activity = activity;
@@ -29,8 +35,12 @@ public class FindNewFriendsPresenter implements Observer {
         //get list of all users
         usersList = repository.getAllUsersExceptMe();
         //change the list to random order
-        usersList = Helper.randomOrder(usersList,thisUser);
+        usersList = Helper.randomOrder(usersList, thisUser);
 
+        // Set up Network Broadcast Receiver
+        netReceiver = new InternetBroadcastReceiver();
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        activity.registerReceiver(netReceiver, filter);
     }
 
     public ArrayList<User> getUsersList() {
@@ -153,7 +163,7 @@ public class FindNewFriendsPresenter implements Observer {
                 friendList2.add(val);
             }
         }
-        if(friendList2.size()>0){
+        if (friendList2.size() > 0) {
             usersList.clear();
             for (int i = 0; i < friendList2.size(); i++) {
                 usersList.add(friendList2.get(i));
@@ -162,7 +172,8 @@ public class FindNewFriendsPresenter implements Observer {
         }
         return usersList;
     }
-    public boolean createNewChat(User user1){
+
+    public boolean createNewChat(User user1) {
         //check if chat already exist
         boolean alreadyExist = false;
         for (int i = 0; i < thisUser.getChats().size(); i++) {
@@ -171,16 +182,28 @@ public class FindNewFriendsPresenter implements Observer {
         }
 
         //create new chat
-        if (!alreadyExist) {
-            String flushName= Helper.FlushName(user1,thisUser);
-            repository.createChat(flushName);
-            thisUser.addChat(user1.getMail());
-            thisUser.addMyMessage(user1.getMail(), "שלום");
-            repository.updateUserInDB(thisUser);
-            user1.addChat(thisUser.getMail());
-            user1.addMessage(thisUser.getMail(), "שלום");
-            repository.updateOtherUserInDB(user1);
+        if (netConnected) {
+            if (!alreadyExist) {
+                String flushName = Helper.FlushName(user1, thisUser);
+                repository.createChat(flushName);
+                thisUser.addChat(user1.getMail());
+                thisUser.addMyMessage(user1.getMail(), "שלום");
+                repository.updateUserInDB(thisUser);
+                user1.addChat(thisUser.getMail());
+                user1.addMessage(thisUser.getMail(), "שלום");
+                repository.updateOtherUserInDB(user1);
+            } else {
+                Toast.makeText(activity, "צ'אט זה כבר קיים", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        } else {
+            Toast.makeText(activity, "לא ניתן להתחיל צ'אט כאשר אין חיבור לרשת", Toast.LENGTH_LONG).show();
+            return false;
         }
-        return alreadyExist;
+        return true;
     }
+    public void setNetConnected(boolean netConnected) {
+        this.netConnected = netConnected;
+    }
+
 }

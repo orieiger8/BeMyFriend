@@ -33,6 +33,15 @@ public class User {
         }
     }
 
+    public int getTotalUnreads() {
+        int total = 0;
+        for (int i = 0; i < chats.size(); i++) {
+            total += chats.get(i).getUnreadMessages();
+        }
+
+        return total;
+    }
+
     public void deleteChat(String mail2) {
         for (int i = 0; i < chats.size(); i++) {
             if (chats.get(i).getMail().equals(mail2)) {

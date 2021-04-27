@@ -59,8 +59,10 @@ public class ChatRoom extends AppCompatActivity implements NewFriendAdapter.OnLi
 
                 presenter.sendMessage(message);
 
-                // Clear the input
-                input.setText("");
+                if (presenter.isNetConnected()) {
+                    // Clear the input
+                    input.setText("");
+                }
             }
         });
         //put partner information in the activity
@@ -111,19 +113,19 @@ public class ChatRoom extends AppCompatActivity implements NewFriendAdapter.OnLi
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
 
+        //TODO: make this look less ugly
         menu.findItem(R.id.menu_chats).setVisible(true);
         menu.findItem(R.id.menu_delete_chat).setVisible(true);
         menu.findItem(R.id.menu_find_new_friends).setVisible(true);
         menu.findItem(R.id.menu_logout).setVisible(true);
         menu.findItem(R.id.menu_my_profile).setVisible(true);
         menu.findItem(R.id.app_bar_search).setVisible(false);
-        startMusic= menu.findItem(R.id.menu_start_music);
-        stopMusic= menu.findItem(R.id.menu_stop_music);
-        if(Helper.IsMusicON()){
+        startMusic = menu.findItem(R.id.menu_start_music);
+        stopMusic = menu.findItem(R.id.menu_stop_music);
+        if (Helper.IsMusicON()) {
             stopMusic.setVisible(true);
             startMusic.setVisible(false);
-        }
-        else {
+        } else {
             stopMusic.setVisible(false);
             startMusic.setVisible(true);
         }
@@ -132,12 +134,11 @@ public class ChatRoom extends AppCompatActivity implements NewFriendAdapter.OnLi
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent= Helper.MenuSelect(item, this, startMusic, stopMusic);
-        if(intent!=null){
+        Intent intent = Helper.MenuSelect(item, this, startMusic, stopMusic);
+        if (intent != null) {
             startActivity(intent);
             finish();
-        }
-        else if (item.getItemId() == R.id.menu_delete_chat) {
+        } else if (item.getItemId() == R.id.menu_delete_chat) {
             presenter.deleteChat();
 
             startActivity(new Intent(this, Chats.class));
@@ -146,5 +147,9 @@ public class ChatRoom extends AppCompatActivity implements NewFriendAdapter.OnLi
 
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setNetConnection(boolean bool) {
+        presenter.setNetConnected(bool);
     }
 }
